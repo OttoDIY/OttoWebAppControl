@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <title>Otto Ninja Web App Control</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="img/Ninja-WAC-Icon.svg">
+    <link rel="apple-touch-icon" href="img/Ninja-WAC-Icon.svg">
+    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+    <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="libraries/p5.ble.js"></script>
+    <script language="javascript" type="text/javascript" src="js/bluetooth.js"></script>
+    <script language="javascript" type="text/javascript" src="js/commands.js"></script>
+    <script language="javascript" type="text/javascript" src="js/BluetoothGUI.js"></script>
+    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;800&family=Poppins:ital,wght@0,400;0,800;1,400&display=swap');
+:root {
+    --background: #000;
+    --brand-color: #FF0000;
+    --highlight: #FF0000;
+    --text: #FFF;
+}
+h3 {
+    color: var(--text);
+}
+.setting--icon {
+    background-image: url('img/ninja-setting-icon.svg');
+}
+#dir--toggle {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 1rem;
+    border: 2px solid var(--brand-color);
+    background: transparent;
+    color: var(--text);
+    margin-top: 2rem;
+}
+.gamepad .mode--section {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+.gamepad .functions {
+    width: 40%;
+}
+.functions .function--btn {
+    width: 70px;
+    height: 70px;
+    margin: 1rem;
+    padding: 2rem;
+    border-radius: 50%;
+    font-size: 4rem;
+    font-weight: bold;
+    background: var(--brand-color);
+    color: var(--text);
+}
+.functions .function--btn:hover {
+    cursor: pointer;
+}
+.control--footer {
+    flex-direction: column;
+    align-items: center;
+}
+  .tumbler-wrapper {
+    background-color: var(--brand-color);
+}
+.tumbler-wrapper img {
+    width: 15px;
+    height: 15px;
+}
+.tumbler-night {
+    transform: translateX(calc(100% - 2px));
+}
+.settings {
+    font-size: 1.8rem;
+}
+.settings input[type=text] {
+    padding: .5rem;
+    border: 1px solid var(--brand-color);
+}
+.settings input[type=number] {
+    width: 5rem;
+    height: 5rem;
+    border: 3px solid var(--brand-color);
+    text-align: center;
+    font-size: 1.6rem;
+}
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: red;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  font-size: 1.2rem;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+@media screen and (max-height:400px) and (orientation:landscape) {
+    html {
+        overflow-y: hidden;
+    }
+    header {
+        height: 10vh;
+    }
+    header #app--icon {
+        width: 30px;
+    }
+    header h1 {
+        font-size: 2rem;
+    }
+    .wrapper {
+        min-height: 280px;
+    }
+    .robot--selector {
+        height: 15%;
+    }
+    .robot--icon {
+        width: 25px;
+    }
+    .container__setting--icon {
+        width: 60px;
+        height: 60px;
+    }
+    .setting--icon {
+        background-size: contain;
+    }
+    .robot--controls {
+        height: 85%;
+    }
+    .gamepad {
+        width: 90%;
+        border: 5px solid var(--brand-color);
+    }
+    .arrow, .stop--button {
+        background-size: 70%;
+        width: 40px;
+        height: 40px;
+    }
+    .gamepad .mode--section {
+        font-size: 1.5rem;
+    }
+    .tumbler-wrapper {
+        height: 25px;
+        width: 60px;
+    }
+    .tumbler {
+        height: 23px;
+        width: 23px;
+    }
+    .tumbler-night {
+        transform: translateX(calc(100% - -5px));
+    }
+    .functions .function--btn {
+        width: 60px;
+        height: 60px;
+        margin: 0 1rem;
+        padding: 0 0.5rem;
+        font-size: 2.5rem;
+    }
+    .control--footer {
+        margin-top: 1rem;
+    }
+    footer {
+        display: block;
+        text-align: center;
+        margin-top: 1rem;
+    }
+    footer span {
+        position: static;
+        font-size: .5rem;
+    }
+    footer img {
+        width: 8rem;
+    }
+}
+    </style>
+</head>
+<body>
+    
+    <main>
+        <div class="wrapper">
+            
+            <section class="robot--selector">
+                <div class="otto--robots">
+                    <div id="OttoNinja" onclick="SetRobot('Otto Ninja')"><img src="img/OttoNinja.svg" alt="Otto Ninja robot icon" class="robot--icon"></div>
+                    <div id="OttoNinjaHumanoid" onclick="ComingSoon('Otto Ninja Humanoid')" class="disabled"><img src="img/OttoNinjaHumanoid.svg" alt="Otto Ninja Humanoid robot icon" class="robot--icon"></div>
+                </div>
+                <div class="container__setting--icon"><span class="setting--icon" onclick="settings()"></span></div>
+            </section>
+
+            <section class="robot--controls">
+                <div class="gamepad">
+                    
+                    <div id="disconnectMessage--container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+                        <header>
+                            <img id="app--icon" src="img/Ninja-WAC-Icon.svg" alt="Icon of the web app of Otto DIY for Otto Ninja">
+                            <h1>Web App Control</h1>
+                        </header>
+                        <h3 style="font-size: 2rem;">Click a robot to connect it & get the controller!</h3>
+                    </div>
+
+                    <div id="dir--keys" class="dir--keys" style="display:none; justify-content:flex-start; flex-direction: column;   align-items: center;">
+                        <button id="dir--toggle" onclick="changeControlMode()" style="display:none;">Joystick</button>
+
+                        <div id="joystick--control" style="display: none; z-index: 1000;">
+                            <canvas id="joystick--canvas" name="game" width="200" height="200"></canvas>
+                        </div>
+
+                        <div id="buttons--control" style="margin-top: 3rem;">
+                            <div class="top">
+                                <span class="up arrow" onclick="btnPressed('up')"></span>
+                            </div>
+                            <div class="middle">
+                                <span class="left arrow" onclick="btnPressed('left')"></span>
+                                <span class="stop--button" onclick="btnPressed('s')"></span>
+                                <span class="right arrow" onclick="btnPressed('right')"></span>
+                            </div>
+                            <div class="bottom">
+                                <span class="down arrow" onclick="btnPressed('down')"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mode--section" style="display:none;">
+                        <label class="txt" for="starter-switch">Mode</label>
+                        <div class="tumbler-wrapper" onclick="setMode()">
+                            <div class="tumbler"></div>
+                            <img src="img/OttoNinjaRoll.svg" alt="Otto Ninja Roll mode image"/>
+                            <img src="img/OttoNinja.svg" alt="Otto Ninja image"/>
+                            </div>
+                    </div>
+                    <div id="functions--section" class="functions" style="display:none;">
+                        <button class="function--btn tooltip">A<span class="tooltiptext">Avoidance walk mode</span></button>
+                        <button class="function--btn tooltip">B<span class="tooltiptext">Avoidance roll mode</span></button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="control--footer">
+                <div class='settings'>
+                    <div>
+                        <label for="ip">IP Address for your Otto Ninja: </label>
+                        <input type="text" name="ip" id="ip" placeholder="Write IP Address" value="http://10.0.0.208/"/>
+                    </div> 
+        
+                    <!-- <div>
+                        <label for='speedR'>Roll Right Forward Speed: </label>
+                        <input type='number' id='RF' placeholder='50' />
+                        <label for='speedL'>Roll Left Forward Speed: </label>
+                        <input type='number' id='LF'placeholder='50' />
+                        <label for='speedR'>Roll Right Backward Speed: </label>
+                        <input type='number' id='RB' placeholder='50' />
+                        <label for='speedL'>Roll Left Backward Speed: </label>
+                        <input type='number' id='LB'placeholder='50' />
+                        <button onclick="Command('save-setting')">Save</button>
+                    </div>  -->
+                </div>
+
+                <iframe src="" frameborder="0" style="display:none;" id="myNinja"></iframe>
+
+                <!-- <a href="https://www.ottodiy.com/" target="_blank"><img src="img/logo-ninja(fondo-negro).svg" alt="Logo of Otto DIY brand for Ninja" class="footer--logo"/></a> -->
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <span>Coded by <a href="https://www.instagram.com/ivanr3d/" target="_blank">Iván R. Artiles</a> and Designed by <a href="https://www.ottodiy.com/" target="_blank">Camilo Parra</a></span>
+        <img src="img/contact-icon.webp" alt="Otto robot with headphones as a call center assistant" onclick="FeedbackModal()"/>
+    </footer>
+
+    <script>
+        let KEY;
+        let Ninja = document.getElementById("myNinja");
+        let Ip = document.getElementById("ip");
+        let mode = "walk";
+
+        function setMode() {
+            document.getElementsByClassName('tumbler')[0].classList.toggle('tumbler-night');
+            if (mode === "walk") {
+                mode = "roll";
+                document.getElementById("joystick--control").style.display = "block";
+                document.getElementById("buttons--control").style.display = "none";
+                Command("rollmode");
+            } else {
+                mode = "walk";
+                document.getElementById("joystick--control").style.display = "none";
+                document.getElementById("buttons--control").style.display = "block";
+                Command("walkmode");
+            }
+
+        }
+
+        function Command(c) {
+            Ip = document.getElementById("ip").value;
+            switch (c) {
+                case "walkmode":
+                    Ninja.src = Ip+"walkmode";
+                    break;
+
+                case "rollmode":
+                    Ninja.src = Ip+"rollmode";
+                    break;
+
+                case "forward":
+                    Ninja.src = Ip+"forward";
+                    break;
+
+                case "right":
+                    Ninja.src = Ip+"right";
+                    break;
+
+                case "backward":
+                    Ninja.src = Ip+"backward";
+                    break;
+
+                case "left":
+                    Ninja.src = Ip+"left";
+                    break;
+
+                case "stop":
+                    Ninja.src = Ip+"stop";
+                    break;
+                case "save-setting":
+                    Ninja.src = Ip+"R="+document.getElementById("RF").value+"&LF="+document.getElementById("LF").value+"&RB="+document.getElementById("RB").value+"&LB="+document.getElementById("LB").value;
+                    console.log(Ip+"R="+document.getElementById("RF").value+"&LF="+document.getElementById("LF").value+"&RB="+document.getElementById("RB").value+"&LB="+document.getElementById("LB").value);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        window.addEventListener('keydown', function (e) {
+            KEY++;
+            if(KEY == 1) {
+                if (e.key == "ArrowUp") {
+                    btnPressed('up');
+                }
+                else if (e.key == "ArrowDown") {
+                    btnPressed('down');
+                }
+                else if (e.key == "ArrowRight") {
+                    btnPressed('right');
+                }
+                else if (e.key == "ArrowLeft") {
+                    btnPressed('left');
+                }
+                else if (e.key == "s") {
+                    btnPressed('s');
+                }
+                else if (e.key == "w") {
+                    setMode();
+                }
+                else if (e.key == "r") {
+                    setMode();
+                }
+                else if (e.key == "a") {
+                    btnPressed('a');
+                    //setMode();
+                }
+            }
+        }, false);
+
+        window.addEventListener('keyup', function (e) {
+            KEY = 0;
+        }, false);
+
+        function btnPressed(btn) {
+
+            if (btn == "up") {
+                changeBackgroundColor("up");
+                Command("forward");
+            }
+            else if  (btn == "down"){
+                changeBackgroundColor("down");
+                Command("backward");
+            }
+            else if  (btn == "right"){
+                changeBackgroundColor("right");
+                Command("right");
+            }
+            else if  (btn == "left"){
+                changeBackgroundColor("left");
+                Command("left");
+            }
+            else if  (btn == "s"){
+                changeBackgroundColor("s");
+                Command("stop");
+            }
+            else {
+                //Stop();
+            }
+
+    }
+
+    function changeBackgroundColor(btn) {
+        if (btn == "up") {
+            document.getElementsByClassName('up')[0].style.backgroundColor = "var(--secondary-highlight)";
+            document.getElementsByClassName('right')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('down')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('left')[0].style.backgroundColor = "var(--brand-color)";
+        }
+        else if (btn == "right") {
+            document.getElementsByClassName('up')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('right')[0].style.backgroundColor = "var(--secondary-highlight)";
+            document.getElementsByClassName('down')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('left')[0].style.backgroundColor = "var(--brand-color)";
+        }
+        else if (btn == "down") {
+            document.getElementsByClassName('up')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('right')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('down')[0].style.backgroundColor = "var(--secondary-highlight)";
+            document.getElementsByClassName('left')[0].style.backgroundColor = "var(--brand-color)";
+        }
+        else if (btn == "left") {
+            document.getElementsByClassName('up')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('right')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('down')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('left')[0].style.backgroundColor = "var(--secondary-highlight)";
+        }
+        else if (btn == "s") {
+            document.getElementsByClassName('up')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('right')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('down')[0].style.backgroundColor = "var(--brand-color)";
+            document.getElementsByClassName('left')[0].style.backgroundColor = "var(--brand-color)";
+        }
+    }
+
+    function SetRobot(ROBOT) {
+        document.getElementById("disconnectMessage--container").style.display == "none" ? document.getElementById("disconnectMessage--container").style.display = "flex" : document.getElementById("disconnectMessage--container").style.display = "none";
+
+        document.getElementById("dir--keys").style.display == "none" ? document.getElementById("dir--keys").style.display = "flex" : document.getElementById("dir--keys").style.display = "none";
+
+        document.getElementsByClassName("mode--section")[0].style.display == "none" ? document.getElementsByClassName("mode--section")[0].style.display = "flex" : document.getElementsByClassName("mode--section")[0].style.display = "none";
+
+        document.getElementById("functions--section").style.display == "none" ? document.getElementById("functions--section").style.display = "flex" : document.getElementById("functions--section").style.display = "none";
+
+        if (ROBOT == 'Otto Ninja') {
+            document.getElementById("OttoNinja").classList.toggle('green--mask');
+        }
+    }
+
+    function ComingSoon(robot) {
+        Swal.fire({
+            icon: 'info',
+            title: robot + ' is not available yet!',
+            html: '<p>This controller is being developed in the spare time of creators with the support of the community.</p><h3>Would you like to support devs?</h3><p>You can <a href="https://ko-fi.com/ottodiy" target="_blank">donate coding time</a> or if you are a programmer, get in contact with us if you think you can help to develop this tool.</p>',
+            showDenyButton: false,
+            showCancelButton: false,
+        })
+    }
+
+    function changeControlMode() {
+        if (document.getElementById("joystick--control").style.display === "none") {
+            document.getElementById("dir--toggle").innerText = "Key buttons";
+            document.getElementById("joystick--control").style.display = "block";
+            document.getElementById("buttons--control").style.display = "none";
+        } else {
+            document.getElementById("dir--toggle").innerText = "Joystick";
+            document.getElementById("joystick--control").style.display = "none";
+            document.getElementById("buttons--control").style.display = "block";
+        }
+    }
+
+    function settings() {
+        Swal.fire({
+            icon: 'info',
+            title: 'Ninja Settings',
+            html: '<div class="settings"><div><label for="ip">IP Address for your Otto Ninja: </label><input type="text" name="ip" id="ip" placeholder="Write IP Address" value="http://10.0.0.208/"/></div><div><label for="speedR">Roll Right Forward Speed: </label><input type="number" id="RF" placeholder="50" /><label for="speedL">Roll Left Forward Speed: </label><input type="number" id="LF"placeholder="50" /><label for="speedR">Roll Right Backward Speed: </label><input type="number" id="RB" placeholder="50" /><label for="speedL">Roll Left Backward Speed: </label><input type="number" id="LB"placeholder="50" /><button onclick="Command("save-setting")">Save</button></div></div>',
+            width: 800,
+        })
+    }
+    </script>
+
+    <!-- Joystick scripts -->
+    <script>
+        var joystickCanvas, ctx;
+
+        window.addEventListener('load', () => {
+
+            joystickCanvas = document.getElementById('joystick--canvas');
+            ctx = joystickCanvas.getContext('2d');
+            resize();
+
+            joystickCanvas.addEventListener('mousedown', startDrawing);
+            joystickCanvas.addEventListener('mouseup', stopDrawing);
+            joystickCanvas.addEventListener('mousemove', Draw);
+
+            joystickCanvas.addEventListener('touchstart', startDrawing);
+            joystickCanvas.addEventListener('touchend', stopDrawing);
+            joystickCanvas.addEventListener('touchcancel', stopDrawing);
+            joystickCanvas.addEventListener('touchmove', Draw);
+            window.addEventListener('resize', resize);
+
+            // document.getElementById("x_coordinate").innerText = 0;
+            // document.getElementById("y_coordinate").innerText = 0;
+            // document.getElementById("speed").innerText = 0;
+            // document.getElementById("angle").innerText = 0;
+        });
+
+        var width, height, radius, x_orig, y_orig;
+        function resize() {
+            width = 200;
+            radius = 50;
+            height = 250;
+            ctx.canvas.width = width;
+            ctx.canvas.height = height;
+            canvasBackground();
+            joystick(width / 2, height / 3);
+        }
+
+        function canvasBackground() {
+            x_orig = width / 2;
+            y_orig = height / 3;
+
+            ctx.beginPath();
+            ctx.arc(x_orig, y_orig, radius + 20, 0, Math.PI * 2, true);
+            ctx.fillStyle = '#0F0F0F';
+            ctx.fill();
+        }
+
+        function joystick(width, height) {
+            ctx.beginPath();
+            ctx.arc(width, height, radius, 0, Math.PI * 2, true);
+            ctx.fillStyle = '#FF0000';
+            ctx.fill();
+            ctx.strokeStyle = '#FF3333';
+            ctx.lineWidth = 8;
+            ctx.stroke();
+        }
+
+        let coord = { x: 0, y: 0 };
+        let paint = false;
+
+        function getPosition(event) {
+            var mouse_x = event.clientX || event.touches[0].clientX;
+            var mouse_y = event.clientY || event.touches[0].clientY;
+            coord.x = mouse_x - joystickCanvas.offsetLeft;
+            coord.y = mouse_y - joystickCanvas.offsetTop;
+        }
+
+        function is_it_in_the_circle() {
+            var current_radius = Math.sqrt(Math.pow(coord.x - x_orig, 2) + Math.pow(coord.y - y_orig, 2));
+            if (radius >= current_radius) return true
+            else return false
+        }
+
+
+        function startDrawing(event) {
+            paint = true;
+            getPosition(event);
+            if (is_it_in_the_circle()) {
+                ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+                canvasBackground();
+                joystick(coord.x, coord.y);
+                Draw();
+            }
+        }
+
+
+        function stopDrawing() {
+            paint = false;
+            ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+            canvasBackground();
+            joystick(width / 2, height / 3);
+            
+            Ninja.src = Ip + "J" + 0 + "," + 0;
+            console.log(Ninja.src);
+            // document.getElementById("x_coordinate").innerText = 0;
+            // document.getElementById("y_coordinate").innerText = 0;
+            // document.getElementById("speed").innerText = 0;
+            // document.getElementById("angle").innerText = 0;
+
+        }
+
+        function Draw(event) {
+
+            if (paint) {
+                ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+                canvasBackground();
+                var angle_in_degrees,x, y, speed;
+                var angle = Math.atan2((coord.y - y_orig), (coord.x - x_orig));
+
+                if (Math.sign(angle) == -1) {
+                    angle_in_degrees = Math.round(-angle * 180 / Math.PI);
+                }
+                else {
+                    angle_in_degrees =Math.round( 360 - angle * 180 / Math.PI);
+                }
+
+
+                if (is_it_in_the_circle()) {
+                    joystick(coord.x, coord.y);
+                    x = coord.x;
+                    y = coord.y;
+                }
+                else {
+                    x = radius * Math.cos(angle) + x_orig;
+                    y = radius * Math.sin(angle) + y_orig;
+                    joystick(x, y);
+                }
+
+            
+                getPosition(event);
+
+                var speed =  Math.round(100 * Math.sqrt(Math.pow(x - x_orig, 2) + Math.pow(y - y_orig, 2)) / radius);
+
+                var x_relative = Math.round(x - x_orig);
+                var y_relative = Math.round(y - y_orig);
+                //console.log("X: " + x_relative);
+                //console.log("Y: " + y_relative);
+                mode === "roll" ? Ninja.src = Ip + "J" + x_relative + "," + y_relative : null;
+                //console.log(Ninja.src);
+
+            }
+        } 
+    </script>
+</body>
+</html>

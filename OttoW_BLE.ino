@@ -1,0 +1,258 @@
+/*  
+*                        
+*    ______________      ____                                _____    _  _     _
+*   |   __     __  |    / __ \ _________ _________   ____   |  __ \  | | \\   //  
+*   |  |__|   |__| |   | |  | |___   ___ ___   ___  / __ \  | |  | | | |  \\ //  
+*   |_    _________|   | |  | |   | |       | |    | |  | | | |  | | | |   | |
+*   | \__/         |   | |__| |   | |       | |    | |__| | | |__| | | |   | |
+*   |              |    \____/    |_|       |_|     \____/  |_____/  |_|   |_|
+*   |_    _________|
+*     \__/            
+*
+*    This Sketch was created to control Otto Wheels with the Offical Web Bluetooth Controller for Otto DIY Robots.
+*    For any question about this script you can contact us at education@ottodiy.com
+*    By: Iván R. Artiles
+*/
+
+#include <SoftwareSerial.h>
+#include <Servo.h>
+
+#define RIGHTSERVO 2
+#define LEFTSERVO 3
+#define TRIG 8
+#define ECHO 9
+#define BLE_TX 11
+#define BLE_RX 12
+
+int line_sensor_right = A0;
+int line_sensor_left = A1;
+int speed_right_forward = 60;
+int speed_right_backward = 120;
+int speed_left_forward = 150;
+int speed_left_backward = 40;
+int speed_stop = 90;
+int right_threeshold = 35;
+int left_threeshold = 35;
+int ultrasound_threeshold = 15;
+int rightValue, leftValue = 0;
+String command = "";
+
+SoftwareSerial bluetooth(BLE_TX, BLE_RX);
+Servo servo_right;
+Servo servo_left;
+
+long ultrasound_distance() {
+   long duration, distance;
+   digitalWrite(TRIG,LOW);
+   delayMicroseconds(2);
+   digitalWrite(TRIG, HIGH);
+   delayMicroseconds(10);
+   digitalWrite(TRIG, LOW);
+   duration = pulseIn(ECHO, HIGH);
+   distance = duration/58;
+   return distance;
+}
+
+void setup() {
+
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
+  
+  servo_right.write(speed_stop);
+  servo_left.write(speed_stop);
+  servo_right.attach(RIGHTSERVO);
+  servo_left.attach(LEFTSERVO);
+  
+  bluetooth.begin(9600);
+  Serial.begin(9600);
+  
+  bluetooth.print("AT+NAMEKevinsArduino");//found this here: ftp://imall.iteadstudio.com/Modules/IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10/DS_IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10.pdf
+
+}
+
+void loop() {
+  
+  checkBluetooth();
+  
+  if (command == "avoidance") {
+    Avoidance();
+  }
+  else if (command == "linefollower") {
+    LineFollower();
+  }
+  
+}
+
+void checkBluetooth() {
+  
+  char charBuffer[30];
+  
+  if (bluetooth.available() > 0) {
+    
+    int numberOfBytesReceived = bluetooth.readBytesUntil('\n', charBuffer, 29);
+    charBuffer[numberOfBytesReceived] = NULL;
+    Serial.print("Received: ");
+    Serial.println(charBuffer);
+
+    if (strstr(charBuffer, "forward") == &charBuffer[0]) {
+      Forward();
+    }   
+    else if (strstr(charBuffer, "backward") == &charBuffer[0]) {
+       Backward();
+    }
+    else if (strstr(charBuffer, "right") == &charBuffer[0]) {
+       Right();
+    }
+    else if (strstr(charBuffer, "left") == &charBuffer[0]) {
+       Left();
+    }
+    else if (strstr(charBuffer, "stop") == &charBuffer[0]) {
+      command = "";
+      Stop();
+    }
+    else if (strstr(charBuffer, "ultrasound") == &charBuffer[0]) {
+      servo_right.detach();
+      servo_left.detach();
+      bluetooth.print(ultrasound_distance());
+    }
+    else if (strstr(charBuffer, "infrared") == &charBuffer[0]) {
+      servo_right.detach();
+      servo_left.detach();
+      rightValue = analogRead(line_sensor_right);
+      leftValue = analogRead(line_sensor_left);
+      String txt = "R: " + String(rightValue) + " L: " + String(leftValue);
+      bluetooth.print(txt);
+    }
+    else if (strstr(charBuffer, "avoidance") == &charBuffer[0]) {
+      command = "avoidance";
+    }
+    else if (strstr(charBuffer, "line_follower") == &charBuffer[0]) {
+      command = "linefollower";
+      servo_right.attach(RIGHTSERVO);
+      servo_left.attach(LEFTSERVO);
+    }
+    else if (strstr(charBuffer, "S") == &charBuffer[0]) {
+      Settings(charBuffer);
+    }
+  }
+}
+
+void Forward() {
+  servo_right.write(speed_right_forward);
+  servo_left.write(speed_left_forward);
+  servo_right.attach(RIGHTSERVO);
+  servo_left.attach(LEFTSERVO);
+}
+
+void Backward() {
+  servo_right.write(speed_right_backward);
+  servo_left.write(speed_left_backward);
+  servo_right.attach(RIGHTSERVO);
+  servo_left.attach(LEFTSERVO);
+}
+
+void Right() {
+  servo_right.write(speed_right_backward);
+  servo_left.write(speed_left_forward);
+  servo_right.attach(RIGHTSERVO);
+  servo_left.attach(LEFTSERVO);
+}
+
+void Left() {
+  servo_right.write(speed_right_forward);
+  servo_left.write(speed_left_backward);
+  servo_right.attach(RIGHTSERVO);
+  servo_left.attach(LEFTSERVO);
+}
+
+void Stop() {
+  servo_right.write(speed_stop);
+  servo_left.write(speed_stop);
+  servo_right.attach(RIGHTSERVO);
+  servo_left.attach(LEFTSERVO);
+}
+
+void Avoidance() {
+  if (ultrasound_distance() < ultrasound_threeshold) {
+      Backward();
+      delay(500);
+      Stop();
+      delay(100);
+      Right();
+      delay(500);
+      Stop();
+      delay(100);
+    }
+    Forward();
+}
+
+void LineFollower() {
+  rightValue = analogRead(line_sensor_right);
+  leftValue = analogRead(line_sensor_left);
+
+  if(rightValue > right_threeshold && leftValue > left_threeshold) {
+    servo_right.write(speed_right_forward+10);
+    servo_left.write(speed_left_forward-10);
+  }
+  else if (leftValue > left_threeshold) {
+    servo_right.write(speed_right_forward-40);
+    servo_left.write(speed_left_forward-40);
+  }
+  else if (rightValue > right_threeshold) {
+    servo_right.write(speed_right_forward+30);
+    servo_left.write(speed_left_forward+30);
+  }
+  
+}
+
+void Settings(String speeds) {
+  decodeSpeeds(speeds);
+}
+
+void decodeSpeeds(String c) {
+  int counter = 0;
+  String rb = "";
+  String rf = "";
+  String lf = "";
+  String lb = "";
+  String ts_r = "";
+  String ts_l = "";
+  String ts_ultrasound = "";
+  for (int i=1; i<c.length(); i++) {
+      if(isDigit(c[i])) {
+          if(counter == 0) {
+              rf += c[i];
+          }
+          else if (counter == 1) {
+              rb += c[i];
+          }
+          else if (counter == 2) {
+              lf += c[i];
+          }
+          else if (counter == 3) {
+              lb += c[i];
+          }
+          else if (counter == 4) {
+              ts_r += c[i];
+          }
+          else if (counter == 5) {
+              ts_l += c[i];
+          }
+          else if (counter == 6) {
+              ts_ultrasound += c[i];
+          }
+      }
+      else if (c[i] == '-') {
+          counter++;
+      }
+  }
+
+  speed_right_forward = rf.toInt();
+  speed_right_backward = rb.toInt();
+  speed_left_forward = lf.toInt();
+  speed_left_backward = lb.toInt();
+  right_threeshold = ts_r.toInt();
+  left_threeshold = ts_l.toInt();
+  ultrasound_threeshold = ts_ultrasound.toInt();
+  
+}
