@@ -20,178 +20,176 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;800&family=Poppins:ital,wght@0,400;0,800;1,400&display=swap');
-:root {
-    --background: #000;
-    --brand-color: #FF0000;
-    --highlight: #FF0000;
-    --text: #FFF;
-}
-h3 {
-    color: var(--text);
-}
-.setting--icon {
-    background-image: url('img/ninja-setting-icon.svg');
-}
-#dir--toggle {
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 1rem;
-    border: 2px solid var(--brand-color);
-    background: transparent;
-    color: var(--text);
-    margin-top: 2rem;
-}
-.gamepad .mode--section {
-    width: 20%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    font-weight: bold;
-}
-.gamepad .functions {
-    width: 40%;
-}
-.functions .function--btn {
-    width: 70px;
-    height: 70px;
-    margin: 1rem;
-    padding: 2rem;
-    border-radius: 50%;
-    font-size: 4rem;
-    font-weight: bold;
-    background: var(--brand-color);
-    color: var(--text);
-}
-.functions .function--btn:hover {
-    cursor: pointer;
-}
-.control--footer {
-    flex-direction: column;
-    align-items: center;
-}
-  .tumbler-wrapper {
-    background-color: var(--brand-color);
-}
-.tumbler-wrapper img {
-    width: 15px;
-    height: 15px;
-}
-.tumbler-night {
-    transform: translateX(calc(100% - 2px));
-}
-.settings {
-    font-size: 1.8rem;
-}
-.settings input[type=text] {
-    padding: .5rem;
-    border: 1px solid var(--brand-color);
-}
-.settings input[type=number] {
-    width: 5rem;
-    height: 5rem;
-    border: 3px solid var(--brand-color);
-    text-align: center;
-    font-size: 1.6rem;
-}
-.tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: red;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  font-size: 1.2rem;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-}
-
-@media screen and (max-height:400px) and (orientation:landscape) {
-    html {
-        overflow-y: hidden;
-    }
-    header {
-        height: 10vh;
-    }
-    header #app--icon {
-        width: 30px;
-    }
-    header h1 {
-        font-size: 2rem;
-    }
-    .wrapper {
-        min-height: 280px;
-    }
-    .robot--selector {
-        height: 15%;
-    }
-    .robot--icon {
-        width: 25px;
-    }
-    .container__setting--icon {
-        width: 60px;
-        height: 60px;
-    }
-    .setting--icon {
-        background-size: contain;
-    }
-    .robot--controls {
-        height: 85%;
-    }
-    .gamepad {
-        width: 90%;
-        border: 5px solid var(--brand-color);
-    }
-    .arrow, .stop--button {
-        background-size: 70%;
-        width: 40px;
-        height: 40px;
-    }
-    .gamepad .mode--section {
-        font-size: 1.5rem;
-    }
-    .tumbler-wrapper {
-        height: 25px;
-        width: 60px;
-    }
-    .tumbler {
-        height: 23px;
-        width: 23px;
-    }
-    .tumbler-night {
-        transform: translateX(calc(100% - -5px));
-    }
-    .functions .function--btn {
-        width: 60px;
-        height: 60px;
-        margin: 0 1rem;
-        padding: 0 0.5rem;
-        font-size: 2.5rem;
-    }
-    .control--footer {
-        margin-top: 1rem;
-    }
-    footer {
-        display: block;
-        text-align: center;
-        margin-top: 1rem;
-    }
-    footer span {
-        position: static;
-        font-size: .5rem;
-    }
-    footer img {
-        width: 8rem;
-    }
-}
+        /* These rules change some values from css/style.css to match the graphic line of Otto Ninja and some needs for the ninja controller screen*/
+        :root {
+            --background: #000;
+            --brand-color: #FF0000;
+            --highlight: #FF0000;
+            --text: #FFF;
+        }
+        h3 {
+            color: var(--text);
+        }
+        .setting--icon {
+            background-image: url('img/ninja-setting-icon.svg');
+        }
+        #dir--toggle {
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 1rem;
+            border: 2px solid var(--brand-color);
+            background: transparent;
+            color: var(--text);
+            margin-top: 2rem;
+        }
+        .gamepad .mode--section {
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .gamepad .functions {
+            width: 40%;
+        }
+        .functions .function--btn {
+            width: 70px;
+            height: 70px;
+            margin: 1rem;
+            padding: 2rem;
+            border-radius: 50%;
+            font-size: 4rem;
+            font-weight: bold;
+            background: var(--brand-color);
+            color: var(--text);
+        }
+        .functions .function--btn:hover {
+            cursor: pointer;
+        }
+        .control--footer {
+            flex-direction: column;
+            align-items: center;
+        }
+        .tumbler-wrapper {
+            background-color: var(--brand-color);
+        }
+        .tumbler-wrapper img {
+            width: 15px;
+            height: 15px;
+        }
+        .tumbler-night {
+            transform: translateX(calc(100% - 2px));
+        }
+        .settings {
+            font-size: 1.8rem;
+        }
+        .settings input[type=text] {
+            padding: .5rem;
+            border: 1px solid var(--brand-color);
+        }
+        .settings input[type=number] {
+            width: 5rem;
+            height: 5rem;
+            border: 3px solid var(--brand-color);
+            text-align: center;
+            font-size: 1.6rem;
+        }
+        .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: red;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            font-size: 1.2rem;
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+        @media screen and (max-height:400px) and (orientation:landscape) {
+            html {
+                overflow-y: hidden;
+            }
+            header {
+                height: 10vh;
+            }
+            header #app--icon {
+                width: 30px;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            .wrapper {
+                min-height: 280px;
+            }
+            .robot--selector {
+                height: 15%;
+            }
+            .robot--icon {
+                width: 25px;
+            }
+            .container__setting--icon {
+                width: 60px;
+                height: 60px;
+            }
+            .setting--icon {
+                background-size: contain;
+            }
+            .robot--controls {
+                height: 85%;
+            }
+            .gamepad {
+                width: 90%;
+                border: 5px solid var(--brand-color);
+            }
+            .arrow, .stop--button {
+                background-size: 70%;
+                width: 40px;
+                height: 40px;
+            }
+            .gamepad .mode--section {
+                font-size: 1.5rem;
+            }
+            .tumbler-wrapper {
+                height: 25px;
+                width: 60px;
+            }
+            .tumbler {
+                height: 23px;
+                width: 23px;
+            }
+            .tumbler-night {
+                transform: translateX(calc(100% - -5px));
+            }
+            .functions .function--btn {
+                width: 60px;
+                height: 60px;
+                margin: 0 1rem;
+                padding: 0 0.5rem;
+                font-size: 2.5rem;
+            }
+            .control--footer {
+                margin-top: 1rem;
+            }
+            footer {
+                display: block;
+                text-align: center;
+                margin-top: 1rem;
+            }
+            footer span {
+                position: static;
+                font-size: .5rem;
+            }
+            footer img {
+                width: 8rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -487,6 +485,16 @@ h3 {
             title: 'Ninja Settings',
             html: '<div class="settings"><div><label for="ip">IP Address for your Otto Ninja: </label><input type="text" name="ip" id="ip" placeholder="Write IP Address" value="http://10.0.0.208/"/></div><div><label for="speedR">Roll Right Forward Speed: </label><input type="number" id="RF" placeholder="50" /><label for="speedL">Roll Left Forward Speed: </label><input type="number" id="LF"placeholder="50" /><label for="speedR">Roll Right Backward Speed: </label><input type="number" id="RB" placeholder="50" /><label for="speedL">Roll Left Backward Speed: </label><input type="number" id="LB"placeholder="50" /><button onclick="Command("save-setting")">Save</button></div></div>',
             width: 800,
+        })
+    }
+
+    function FeedbackModal() {
+        Swal.fire({
+            icon: 'info',
+            title: 'Do you like this controller?',
+            html: '<p>Send us your feedback at <a href="mailto:education@ottodiy.com" target="_blank">education@ottodiy.com</a> or through your favorite social network @OttoDIY.</p><p>You can also help with the development of this software by:</p><ul style="text-align:left;"><li><a href="https://ko-fi.com/ottodiy" target="_blank">Donating coding time</a></li><li>Coding by yourself. Drop us a message if you want to collaborate with this project.</ul>',
+            showDenyButton: false,
+            showCancelButton: false,
         })
     }
     </script>
