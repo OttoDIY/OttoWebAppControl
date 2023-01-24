@@ -87,21 +87,26 @@ main {
 .otto--robots div {
     margin: 0 auto;
 }
-.container__setting--icon {
-    width: 100px;
-    height: 100px;
-    margin-left: 2%;
+.container__setting--icon, .container__arduino--icon {
+    width: 80px;
+    height: 80px;
     padding: 1%;
 }
-.setting--icon {
-    background-image: url('../img/setting-icon.svg');
+.setting--icon, .codes--icon {
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
     width: 80%;
     height: 80%;
     display: block;
 }
-.robot--icon:hover, .arrow:hover, .stop--button:hover, .setting--icon:hover {
+.setting--icon {
+    background-image: url('../img/setting-icon.svg');
+}
+.codes--icon {
+    background-image: url('../img/arduino-download-btn.png');
+}
+.robot--icon:hover, .arrow:hover, .stop--button:hover, .setting--icon:hover, .codes--icon:hover {
     cursor: pointer;
     transform: scale(0.8);
 }
@@ -315,24 +320,22 @@ input:checked + .toggle:after {
 .toggle:active:after {
     width: 32.5px;
 }
-.control--footer {
+footer {
     display: flex;
-    justify-content: center;
-    height: 5%;
+    flex-direction: column;
+    align-items: center;
+}
+footer span {
+    font-size: 1.5rem;
+    padding: 1rem;
+}
+footer span em {
+    cursor: pointer;
 }
 .footer--logo {
     width: 85px;
 }
-footer {
-    display: flex;
-    justify-content: center;
-}
-footer span {
-    font-size: 1.5rem;
-    position: fixed;
-    bottom: 0;
-}
-footer img {
+footer .contact--icon {
     z-index: 2;
     position: fixed;
     right: 0;
@@ -472,7 +475,7 @@ footer img:hover {
 .swal2-title {
     color: var(--brand-color)!important;
 }
-#swal2-content {
+#swal2-content, #swal2-html-container {
     color: var(--text);
 }
 
@@ -502,8 +505,9 @@ footer img:hover {
         width: 60px;
         height: 60px;
     }
-    .setting--icon {
-        background-size: contain;
+    .container__arduino--icon {
+        width: 60px;
+        height: 60px;
     }
     .gamepad {
         width: 90%;
@@ -534,20 +538,14 @@ footer img:hover {
         padding: 0 0.5rem;
         font-size: 2.5rem;
     }
-    .control--footer {
-        margin-top: 2rem;
-    }
-    footer {
-        display: block;
-        text-align: center;
-        margin-top: 1rem;
-    }
     footer span {
-        position: static;
         font-size: 1rem;
     }
-    footer img {
-        width: 8rem;
+    .footer--logo {
+        width: 60px;
+    }
+    footer .contact--icon {
+        width: 6rem;
     }
     .container__bluetooth--icon {
         width: 30px;

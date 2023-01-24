@@ -17,7 +17,14 @@
     <script language="javascript" type="text/javascript" src="js/BluetoothGUI.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
     <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
-    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script>
+        function LoadSweetOnline() {
+            let script = document.createElement("script");
+            script.src = "https://cdn.jsdelivr.net/npm/sweetalert2@10";
+            document.head.append(script);
+        }
+    </script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js" onerror="LoadSweetOnline()"></script>
 </head>
 <body onload="loadScreen()">
     <main>
@@ -35,6 +42,7 @@
                     <div id="OttoNinja" onclick="Ninja()"><img src="img/OttoNinja.svg" alt="Otto Ninja robot icon" class="robot--icon"></div>
                 </div>
                 <div class="container__setting--icon"><span class="setting--icon" onclick="settings()"></span></div>
+                <div class="container__arduino--icon"><span class="codes--icon" onclick="arduinoCodes()"></span></div>
                 <div class="tumbler-wrapper" onclick="screenMode()">
                     <div class="tumbler"></div>
                     <!--?xml version="1.0" encoding="iso-8859-1"?-->
@@ -118,22 +126,16 @@
                             <input type="range" orient="vertical" name="speed--slider" id="speed--slider" min="0" max="5" value="3" class="slider"/>
                         </div>
                     </div>
-                    <div id="functions--section" class="functions" style="display: none;">
-                        
-                    </div>
+                    <div id="functions--section" class="functions" style="display: none;"></div>
                 </div>
             </section>
-
-            <section class="control--footer">
-                <a href="https://www.ottodiy.com/" target="_blank"><img src="img/logo-horizontal(fondo-blanco).svg" alt="Logo of Otto DIY brand" class="footer--logo"/></a>
-            </section>
-
         </div>
     </main>
 
     <footer>
-        <span>Coded by <a href="https://www.instagram.com/ivanr3d/" target="_blank">Iván R. Artiles</a> and Designed by <a href="https://www.ottodiy.com/" target="_blank">Camilo Parra</a></span>
-        <img src="img/contact-icon.webp" alt="Otto robot with headphones as a call center assistant" onclick="FeedbackModal()"/>
+        <span>Made with 💚 by 🤖<em style="color:#32d900;" onclick="credits()">OttoDIY community</em></span>
+        <a href="https://www.ottodiy.com/" target="_blank"><img src="img/logo-horizontal(fondo-blanco).svg" alt="Logo of Otto DIY brand" class="footer--logo"/></a>
+        <img class="contact--icon" src="img/contact-icon.webp" alt="Otto robot with headphones as a call center assistant" onclick="FeedbackModal()"/>
     </footer>
 
     <script src="js/connection.js"></script>
@@ -400,6 +402,23 @@
                 appIcon.src = "img/app-icon.svg";
                 footerLogo.src = "img/logo-horizontal(fondo-blanco).svg";
             }
+        }
+
+        function arduinoCodes() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Downloads zone',
+                html: '<p>To start using this app, you must download the bluetooth code required depending which robot you are using</p>'+
+                '<p>Upload the code <ul><li><a href="OttoS_BLE.ino" target="_blank">OttoStarter</a></li> <li><a href="OttoW_BLE.ino" target="_blank">OttoWheels</a></li> <li><a href="OttoNinja.ino" target="_blank">Otto Ninja Starter</a></li></ul></p>'
+            })
+        }
+
+        function credits() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Thanks to our amazing community!',
+                html: '<ul><li>Iván R. Artiles</li><li>Camilo Parra</li></ul>'
+            })
         }
     </script>
 
