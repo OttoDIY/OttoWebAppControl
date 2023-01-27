@@ -193,6 +193,7 @@ main {
     height: 12px;
     background: var(--brand-color);
     outline: none;
+    -webkit-transition: .2s;
     transition: opacity .2s;
     border-radius: 24.5px;
 }
@@ -477,7 +478,8 @@ footer img:hover {
 #swal2-content, #swal2-html-container {
     color: var(--text);
 }
-@media screen and (max-height:400px) and (orientation:landscape){
+
+@media screen and (max-height:400px) and (orientation:landscape) {
     html {
         overflow-y: scroll;
     }
@@ -553,4 +555,3 @@ footer img:hover {
         background-size: contain;
     }
 }
-/*# sourceMappingURL=style.css.map */
