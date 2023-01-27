@@ -8,8 +8,9 @@ This project is a web app that allows you to control [Otto DIY](https://www.otto
 To install the project, follow these steps:
 
 1.  Clone the repository to your computer using the command: `git clone https://github.com/OttoDIY/OttoWebAppControl.git`
-2.  Install the Sweetalert2 by running `npm install sweetalert2` in the project folder.
-3.  _And that's it!_ Open the _index.html_ file with Google Chrome to start using the app.
+2.  Install the dependencies by running `npm install` in the project folder.
+3.  For compiling styles run `npm run css:build` when your code is ready for deploy. When you are developing, you can run `npm run css:watch` to compile while you are working.
+4.  _And that's it!_ Open the _index.html_ file with Google Chrome to start using the app.
 
 ## Usage
 
@@ -26,7 +27,7 @@ To use the application, follow these steps:
 
 -   **Compatibility:** with all Otto DIY robots but other biped and vehicle robots based on Arduino could be connected too
 -   **Movement control:** forward, backward, turn left and turn right
--   **Gestures:** with Otto Starter you can execute some gestures like Happy, Sad, Angry, etc 
+-   **Gestures:** with Otto Starter you can execute some gestures like Happy, Sad, Angry, etc
 - **Functions:** avoidance (biped & wheels) and line follower (only wheels) functions are available
 - **Sensor value display:** depending on the robot you are using you will be able to view the values of some sensors like ultrasound and infrared
 
@@ -40,9 +41,9 @@ This project is open source and we welcome contributions. If you would like to h
 4.  Push to the branch (`git push origin my-new-feature`)
 5.  Create a new pull request
 
-If you are looking for something specific you could help, here is a list of features we would love to implement: 
+If you are looking for something specific you could help, here is a list of features we would love to implement:
 
- - [ ] **Multi language**: a nice way to change the app texts from one language to another. 
+ - [ ] **Multi language**: a nice way to change the app texts from one language to another.
  - [ ] **New Otto DIY robots support**: currently only Starter, Wheels & Ninja Starter are available. If you have experience coding Arduino you could help us by creating the code to control some of the other Otto robots or creating the UI for those robots.
  - [ ] **Responsive design**: improve the experience of using the app on different screen sizes.
  - [ ] **PWA implementation**: turn the app into a Progressive Web App.
