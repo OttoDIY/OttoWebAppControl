@@ -7,6 +7,7 @@
     <title>Otto Ninja Web App Control</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="icon" href="img/Ninja-WAC-Icon.svg">
     <link rel="apple-touch-icon" href="img/Ninja-WAC-Icon.svg">
     <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
@@ -17,7 +18,14 @@
     <script language="javascript" type="text/javascript" src="js/BluetoothGUI.js"></script>
     <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        function LoadSweetOnline() {
+            let script = document.createElement("script");
+            script.src = "https://cdn.jsdelivr.net/npm/sweetalert2@10";
+            document.head.append(script);
+        }
+    </script>
+    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js" onerror="LoadSweetOnline()"></script>
 
     <style>
         /* These rules change some values from css/style.css to match the graphic line of Otto Ninja and some needs for the ninja controller screen*/
@@ -112,6 +120,18 @@
         .tooltip:hover .tooltiptext {
             visibility: visible;
         }
+        footer span {
+            padding: 0;
+        }
+        footer ul {
+            list-style-type: none;
+            display: flex;
+        }
+        footer ul li {
+            font-size: 1.6rem;
+            margin: 0 1rem;
+        }
+
         @media screen and (max-height:400px) and (orientation:landscape) {
             html {
                 overflow-y: hidden;
@@ -253,7 +273,7 @@
             </section>
 
             <section class="control--footer">
-                <div class='settings'>
+                <div class='settings' style="text-align: center;">
                     <div>
                         <label for="ip">IP Address for your Otto Ninja: </label>
                         <input type="text" name="ip" id="ip" placeholder="Write IP Address" value="http://10.0.0.208/"/>
@@ -281,8 +301,19 @@
     </main>
 
     <footer>
-        <span>Coded by <a href="https://www.instagram.com/ivanr3d/" target="_blank">Iván R. Artiles</a> and Designed by <a href="https://www.ottodiy.com/" target="_blank">Camilo Parra</a></span>
-        <img src="img/contact-icon.webp" alt="Otto robot with headphones as a call center assistant" onclick="FeedbackModal()"/>
+        <a href="https://www.ottodiy.com/" target="_blank"><img src="img/logo-ninja(fondo-negro).svg" alt="Logo of Otto DIY brand" class="footer--logo"/></a>
+        <span>Otto WAC © 2023 - version 1.0</span>
+        <span>Made with ❤️ by 🤖<a href="https://discord.com/invite/CZZytnw" target="_blank">OttoDIY community</a></span>
+        <ul>
+            <li><a href="https://github.com/OttoDIY/OttoWebAppControl" target="_blank"><i class="fab fa-github"></i></a></li>
+            <li><a href="https://discord.com/invite/CZZytnw" target="_blank"><i class="fab fa-discord"></i></a></li>
+            <li><a href="https://www.facebook.com/groups/ottodiy" target="_blank"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="https://twitter.com/ottodiy" target="_blank"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="https://www.instagram.com/ottodiy/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="https://www.youtube.com/ottodiy" target="_blank"><i class="fab fa-youtube"></i></a></li>
+            <li><a href="https://www.linkedin.com/company/ottodiy/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        </ul>
+        <img class="contact--icon" src="img/contact-icon.webp" alt="Otto robot with headphones as a call center assistant" onclick="FeedbackModal()"/>
     </footer>
 
     <script>
@@ -366,10 +397,10 @@
                     btnPressed('s');
                 }
                 else if (e.key == "w") {
-                    setMode();
+                    mode === "roll" ? setMode() : null;
                 }
                 else if (e.key == "r") {
-                    setMode();
+                    mode === "walk" ? setMode() : null;
                 }
                 else if (e.key == "a") {
                     btnPressed('a');

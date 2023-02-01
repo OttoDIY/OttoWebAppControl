@@ -368,6 +368,7 @@ void loop() {
   else if (command == "forward") {
     if(walkMode) {
       WalkForward();
+      command = "";
     } else {
       NinjaRollForward(roll_right_forward_speed, roll_left_forward_speed);
     }
@@ -375,6 +376,7 @@ void loop() {
   else if (command == "backward") {
     if(walkMode) {
       WalkBackward();
+      command = "";
     } else {
       NinjaRollBackward(roll_right_backward_speed, roll_left_backward_speed);
     }
@@ -463,6 +465,7 @@ void CheckClient() {
     command = "";
   }
   else if (req.indexOf("/J") > 0){
+    command = "joystick";
     GetCoords(req);
   }
   else {

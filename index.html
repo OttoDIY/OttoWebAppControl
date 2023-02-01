@@ -7,6 +7,7 @@
     <title>Otto DIY Web App Control</title>
 
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link rel="icon" href="img/favicon.ico">
     <link rel="apple-touch-icon" href="img/favicon.ico">
     <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
@@ -25,6 +26,19 @@
         }
     </script>
     <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js" onerror="LoadSweetOnline()"></script>
+    <style>
+        footer span {
+            padding: 0;
+        }
+        footer ul {
+            list-style-type: none;
+            display: flex;
+        }
+        footer ul li {
+            font-size: 1.6rem;
+            margin: 0 1rem;
+        }
+    </style>
 </head>
 <body onload="loadScreen()">
     <main>
@@ -133,8 +147,18 @@
     </main>
 
     <footer>
-        <span>Made with 💚 by 🤖<em style="color:#32d900;" onclick="credits()">OttoDIY community</em></span>
         <a href="https://www.ottodiy.com/" target="_blank"><img src="img/logo-horizontal(fondo-blanco).svg" alt="Logo of Otto DIY brand" class="footer--logo"/></a>
+        <span>Otto WAC © 2023 - version 1.0</span>
+        <span>Made with 💚 by 🤖<a href="https://discord.com/invite/CZZytnw" target="_blank">OttoDIY community</a></span>
+        <ul>
+            <li><a href="https://github.com/OttoDIY/OttoWebAppControl" target="_blank"><i class="fab fa-github"></i></a></li>
+            <li><a href="https://discord.com/invite/CZZytnw" target="_blank"><i class="fab fa-discord"></i></a></li>
+            <li><a href="https://www.facebook.com/groups/ottodiy" target="_blank"><i class="fab fa-facebook"></i></a></li>
+            <li><a href="https://twitter.com/ottodiy" target="_blank"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="https://www.instagram.com/ottodiy/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+            <li><a href="https://www.youtube.com/ottodiy" target="_blank"><i class="fab fa-youtube"></i></a></li>
+            <li><a href="https://www.linkedin.com/company/ottodiy/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        </ul>
         <img class="contact--icon" src="img/contact-icon.webp" alt="Otto robot with headphones as a call center assistant" onclick="FeedbackModal()"/>
     </footer>
 
@@ -412,15 +436,16 @@
                 '<p>Upload the code <ul><li><a href="OttoS_BLE.ino" target="_blank">OttoStarter</a></li> <li><a href="OttoW_BLE.ino" target="_blank">OttoWheels</a></li> <li><a href="OttoNinja.ino" target="_blank">Otto Ninja Starter</a></li></ul></p>'
             })
         }
-
-        function credits() {
-            Swal.fire({
-                icon: 'info',
-                title: 'Thanks to our amazing community!',
-                html: '<ul><li>Iván R. Artiles</li><li>Camilo Parra</li></ul>'
-            })
-        }
     </script>
 
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+    kofiWidgetOverlay.draw('ottodiy', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support Us',
+        'floating-chat.donateButton.background-color': '#5cb85c',
+        'floating-chat.donateButton.text-color': '#fff'
+    });
+    </script>
 </body>
 </html>
