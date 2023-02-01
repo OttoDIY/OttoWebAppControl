@@ -273,7 +273,7 @@
             </section>
 
             <section class="control--footer">
-                <div class='settings'>
+                <div class='settings' style="text-align: center;">
                     <div>
                         <label for="ip">IP Address for your Otto Ninja: </label>
                         <input type="text" name="ip" id="ip" placeholder="Write IP Address" value="http://10.0.0.208/"/>
@@ -397,10 +397,10 @@
                     btnPressed('s');
                 }
                 else if (e.key == "w") {
-                    setMode();
+                    mode === "roll" ? setMode() : null;
                 }
                 else if (e.key == "r") {
-                    setMode();
+                    mode === "walk" ? setMode() : null;
                 }
                 else if (e.key == "a") {
                     btnPressed('a');
