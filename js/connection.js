@@ -55,8 +55,6 @@ function OttoConnection(robot) {
 function SetRobot() {
     document.getElementById("disconnectMessage--container").style.display == "none" ? document.getElementById("disconnectMessage--container").style.display = "flex" : document.getElementById("disconnectMessage--container").style.display = "none";
 
-    document.getElementById("dir--keys").style.display == "none" ? document.getElementById("dir--keys").style.display = "flex" : document.getElementById("dir--keys").style.display = "none";
-
     document.getElementsByClassName("lever")[0].style.display == "none" ? document.getElementsByClassName("lever")[0].style.display = "flex" : document.getElementsByClassName("lever")[0].style.display = "none";
 
     document.getElementById("functions--section").style.display == "none" ? document.getElementById("functions--section").style.display = "flex" : document.getElementById("functions--section").style.display = "none";
@@ -64,18 +62,21 @@ function SetRobot() {
     if (ROBOT == 'Otto Starter') {
         document.getElementById("OttoStarter").classList.toggle('green--mask');
         if (isConnected) {
+            document.getElementById("dir--keys").style.display == "none" ? document.getElementById("dir--keys").style.display = "flex" : document.getElementById("dir--keys").style.display = "none";
             CreateGesturesButtons();
             CreateUltrasound();
             CreateAvoidance();
             CreateForce();
         } else {
             ROBOT = "";
+            document.getElementById("dir--keys").style.display == "flex" ? document.getElementById("dir--keys").style.display = "none" : null;
             FunctionsDestroyer();
         }
     }
     else if (ROBOT == 'Otto Wheels') {
         document.getElementById("OttoWheels").classList.toggle('green--mask');
         if (isConnected) {
+            document.getElementById("joystick--control").style.display == "none" ? document.getElementById("joystick--control").style.display = "flex" : document.getElementById("joystick--control").style.display = "none";
             document.getElementsByClassName("slider--container")[0].style.display = "none";
             CreateUltrasound();
             CreateInfrared();
@@ -83,7 +84,7 @@ function SetRobot() {
             CreateLineFollower();
         } else {
             ROBOT = "";
-            document.getElementsByClassName("slider--container")[0].style.display = "flex";
+            document.getElementById("joystick--control").style.display == "flex" ? document.getElementById("joystick--control").style.display = "none" : null;
             FunctionsDestroyer();
         }
     }

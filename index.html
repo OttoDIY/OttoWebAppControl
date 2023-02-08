@@ -122,6 +122,9 @@
                         </header>
                         <h3 style="font-size: 2rem;">Click a robot to connect it & get the controller!</h3>
                     </div>
+                    <div id="joystick--control" style="display: none;z-index: 1000;align-items: center;flex-wrap: wrap; width: 40%;">
+                        <canvas id="joystick--canvas" name="game" width="200" height="200"></canvas>
+                    </div>
                     <div id="dir--keys" class="dir--keys" style="display: none;">
                         <div class="top">
                             <span class="up arrow" onclick="btnPressed('up')"></span>
@@ -436,6 +439,150 @@
                 '<p>Upload the code <ul><li><a href="OttoS_BLE.ino" target="_blank">OttoStarter</a></li> <li><a href="OttoW_BLE.ino" target="_blank">OttoWheels</a></li> <li><a href="OttoNinja.ino" target="_blank">Otto Ninja Starter</a></li></ul></p>'
             })
         }
+    </script>
+
+    <!-- Joystick scripts -->
+    <script>
+        let joystickCanvas, ctx;
+
+        window.addEventListener('load', () => {
+
+            joystickCanvas = document.getElementById('joystick--canvas');
+            ctx = joystickCanvas.getContext('2d');
+            resize();
+
+            joystickCanvas.addEventListener('mousedown', startDrawing);
+            joystickCanvas.addEventListener('mouseup', stopDrawing);
+            joystickCanvas.addEventListener('mousemove', Draw);
+
+            joystickCanvas.addEventListener('touchstart', startDrawing);
+            joystickCanvas.addEventListener('touchend', stopDrawing);
+            joystickCanvas.addEventListener('touchcancel', stopDrawing);
+            joystickCanvas.addEventListener('touchmove', Draw);
+            window.addEventListener('resize', resize);
+
+            // document.getElementById("x_coordinate").innerText = 0;
+            // document.getElementById("y_coordinate").innerText = 0;
+            // document.getElementById("speed").innerText = 0;
+            // document.getElementById("angle").innerText = 0;
+        });
+
+        let width, height, radius, x_orig, y_orig;
+        function resize() {
+            width = 200;
+            radius = 50;
+            height = 250;
+            ctx.canvas.width = width;
+            ctx.canvas.height = height;
+            canvasBackground();
+            joystick(width / 2, height / 3);
+        }
+
+        function canvasBackground() {
+            x_orig = width / 2;
+            y_orig = height / 3;
+
+            ctx.beginPath();
+            ctx.arc(x_orig, y_orig, radius + 20, 0, Math.PI * 2, true);
+            ctx.fillStyle = '#e5e5e5';
+            ctx.fill();
+        }
+
+        function joystick(width, height) {
+            ctx.beginPath();
+            ctx.arc(width, height, radius, 0, Math.PI * 2, true);
+            ctx.fillStyle = '#32D900';
+            ctx.fill();
+            ctx.strokeStyle = '#1b6904';
+            ctx.lineWidth = 8;
+            ctx.stroke();
+        }
+
+        let coord = { x: 0, y: 0 };
+        let paint = false;
+
+        function getPosition(event) {
+            let mouse_x = event.clientX || event.touches[0].clientX;
+            let mouse_y = event.clientY || event.touches[0].clientY;
+            coord.x = mouse_x - joystickCanvas.offsetLeft;
+            coord.y = mouse_y - joystickCanvas.offsetTop;
+        }
+
+        function is_it_in_the_circle() {
+            let current_radius = Math.sqrt(Math.pow(coord.x - x_orig, 2) + Math.pow(coord.y - y_orig, 2));
+            if (radius >= current_radius) return true
+            else return false
+        }
+
+
+        function startDrawing(event) {
+            paint = true;
+            getPosition(event);
+            if (is_it_in_the_circle()) {
+                ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+                canvasBackground();
+                joystick(coord.x, coord.y);
+                Draw();
+            }
+        }
+
+
+        function stopDrawing() {
+            paint = false;
+            ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+            canvasBackground();
+            joystick(width / 2, height / 3);
+            
+            //Ninja.src = Ip + "J" + 0 + "," + 0;
+            //console.log(Ninja.src);
+            // document.getElementById("x_coordinate").innerText = 0;
+            // document.getElementById("y_coordinate").innerText = 0;
+            // document.getElementById("speed").innerText = 0;
+            // document.getElementById("angle").innerText = 0;
+
+        }
+
+        function Draw(event) {
+
+            if (paint) {
+                ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
+                canvasBackground();
+                let angle_in_degrees,x, y, speed;
+                let angle = Math.atan2((coord.y - y_orig), (coord.x - x_orig));
+
+                if (Math.sign(angle) == -1) {
+                    angle_in_degrees = Math.round(-angle * 180 / Math.PI);
+                }
+                else {
+                    angle_in_degrees =Math.round( 360 - angle * 180 / Math.PI);
+                }
+
+
+                if (is_it_in_the_circle()) {
+                    joystick(coord.x, coord.y);
+                    x = coord.x;
+                    y = coord.y;
+                }
+                else {
+                    x = radius * Math.cos(angle) + x_orig;
+                    y = radius * Math.sin(angle) + y_orig;
+                    joystick(x, y);
+                }
+
+            
+                getPosition(event);
+
+                speed =  Math.round(100 * Math.sqrt(Math.pow(x - x_orig, 2) + Math.pow(y - y_orig, 2)) / radius);
+
+                let x_relative = Math.round(x - x_orig);
+                let y_relative = Math.round(y - y_orig);
+                //console.log("X: " + x_relative);
+                //console.log("Y: " + y_relative);
+                //mode === "roll" ? Ninja.src = Ip + "J" + x_relative + "," + y_relative : null;
+                //console.log(Ninja.src);
+
+            }
+        } 
     </script>
 
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
