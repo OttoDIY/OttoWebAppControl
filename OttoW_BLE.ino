@@ -93,7 +93,7 @@ void checkBluetooth() {
     charBuffer[numberOfBytesReceived] = NULL;
     Serial.print("Received: ");
     Serial.println(charBuffer);
-
+    
     if (strstr(charBuffer, "forward") == &charBuffer[0]) {
       Forward();
     }   
@@ -109,6 +109,10 @@ void checkBluetooth() {
     else if (strstr(charBuffer, "stop") == &charBuffer[0]) {
       command = "";
       Stop();
+    }
+    else if (strstr(charBuffer, "J") == &charBuffer[0]) {
+      command = "joystick";
+      GetCoords(charBuffer);
     }
     else if (strstr(charBuffer, "ultrasound") == &charBuffer[0]) {
       servo_right.detach();
@@ -135,6 +139,27 @@ void checkBluetooth() {
       Settings(charBuffer);
     }
   }
+}
+
+void GetCoords(String str) {
+  String x = str.substring(str.lastIndexOf('J')+1, str.lastIndexOf(','));
+  String y = str.substring(str.lastIndexOf(',')+1,str.lastIndexOf('H')-1);
+  //Serial.println("X:" + x + " Y:" + y);
+  joystickRoll(x.toInt(), y.toInt());
+}
+
+void joystickRoll(int x, int y) {
+  if ((x >= -5)&&(x <= 5)&&(y >= -5)&&(y <= 5)){Stop();}
+  else{
+    servo_left.attach(LEFTSERVO);
+    servo_right.attach(RIGHTSERVO);
+    int LWS= map(y, -50, 50, 135, 45);
+    int RWS= map(y, -50, 50, 45, 135);
+    int LWD= map(x, 50, -50, 45, 0);
+    int RWD= map(x, 50, -50, 0, -45);
+    servo_left.write(LWS+LWD);
+    servo_right.write(RWS+RWD);
+    }
 }
 
 void Forward() {

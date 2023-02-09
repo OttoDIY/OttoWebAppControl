@@ -461,10 +461,6 @@
             joystickCanvas.addEventListener('touchmove', Draw);
             window.addEventListener('resize', resize);
 
-            // document.getElementById("x_coordinate").innerText = 0;
-            // document.getElementById("y_coordinate").innerText = 0;
-            // document.getElementById("speed").innerText = 0;
-            // document.getElementById("angle").innerText = 0;
         });
 
         let width, height, radius, x_orig, y_orig;
@@ -532,13 +528,7 @@
             ctx.clearRect(0, 0, joystickCanvas.width, joystickCanvas.height);
             canvasBackground();
             joystick(width / 2, height / 3);
-            
-            //Ninja.src = Ip + "J" + 0 + "," + 0;
-            //console.log(Ninja.src);
-            // document.getElementById("x_coordinate").innerText = 0;
-            // document.getElementById("y_coordinate").innerText = 0;
-            // document.getElementById("speed").innerText = 0;
-            // document.getElementById("angle").innerText = 0;
+            Joystick(0,0);
 
         }
 
@@ -576,10 +566,7 @@
 
                 let x_relative = Math.round(x - x_orig);
                 let y_relative = Math.round(y - y_orig);
-                //console.log("X: " + x_relative);
-                //console.log("Y: " + y_relative);
-                //mode === "roll" ? Ninja.src = Ip + "J" + x_relative + "," + y_relative : null;
-                //console.log(Ninja.src);
+                Joystick(x_relative, y_relative);
 
             }
         } 
