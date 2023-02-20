@@ -223,6 +223,7 @@
                     <div id="OttoNinjaHumanoid" onclick="ComingSoon('Otto Ninja Humanoid')" class="disabled"><img src="img/OttoNinjaHumanoid.svg" alt="Otto Ninja Humanoid robot icon" class="robot--icon"></div>
                 </div>
                 <div class="container__setting--icon"><span class="setting--icon" onclick="settings()"></span></div>
+                <div class="container__arduino--icon"><span class="codes--icon" onclick="arduinoCodes()"></span></div>
             </section>
 
             <section class="robot--controls">
@@ -528,6 +529,15 @@
             showCancelButton: false,
         })
     }
+
+    function arduinoCodes() {
+            Swal.fire({
+                icon: 'info',
+                title: 'Downloads zone',
+                html: '<p>To start using this app, you must download the bluetooth code required depending which robot you are using</p>'+
+                '<p>Upload the code <ul><li><a href="OttoNinja.ino" target="_blank">Otto Ninja Starter</a></li></ul></p>'
+            })
+        }
     </script>
 
     <!-- Joystick scripts -->
@@ -672,6 +682,15 @@
 
             }
         } 
+    </script>
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+    kofiWidgetOverlay.draw('ottodiy', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support Us',
+        'floating-chat.donateButton.background-color': '#5cb85c',
+        'floating-chat.donateButton.text-color': '#fff'
+    });
     </script>
 </body>
 </html>

@@ -1,3 +1,6 @@
+function Joystick(x,y) {
+  sendData("J"+x+","+y+"\n");
+}
 function Forward() {
   sendData("forward " + document.getElementById("speed--slider").value + "\n");
 }
