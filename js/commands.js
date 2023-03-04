@@ -56,7 +56,7 @@ function LineFollower() {
   sendData("line_follower\n");
 }
 function bipedCalibration() {
-  sendData("C"+document.getElementById("llvalue").innerText+"-"+document.getElementById("rlvalue").innerText+"-"+document.getElementById("lfvalue").innerText+"-"+document.getElementById("rfvalue").innerText+"\n");
+  sendData("C"+document.getElementById("llvalue").innerText+"a"+document.getElementById("rlvalue").innerText+"b"+document.getElementById("lfvalue").innerText+"c"+document.getElementById("rfvalue").innerText+"d"+"\n");
 }
 
 function newSettings(robot) {

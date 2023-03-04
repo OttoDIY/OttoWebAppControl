@@ -38,7 +38,9 @@ int ch;
 int i;
 int positions[] = {90, 90, 90, 90};
 int8_t trims[4] = {0,0,0,0};
-int sync_time = 0;
+unsigned long sync_time = 0;
+
+bool calibration = false;
   
 SoftwareSerial bluetooth(BLE_TX, BLE_RX);
 Otto Ottobot;
@@ -156,7 +158,12 @@ void checkBluetooth() {
       Ottobot.playGesture(OttoFart);
     }
     else if (strstr(charBuffer, "C") == &charBuffer[0]) {
-      Stop();
+      
+      if (calibration == false) {
+        Ottobot._moveServos(10, positions);
+        calibration = true;
+        delay(50);
+      } 
       command = "calibration";
       Calibration(charBuffer);
     }
@@ -216,49 +223,13 @@ void Settings(String ts_ultrasound) {
 }
 
 void Calibration(String c) {
-  int counter = 0;
-  String rl = "";
-  String rf = "";
-  String ll = "";
-  String lf = "";
-  for (int i=1; i<c.length(); i++) {
-      if(isDigit(c[i])) {
-          if(counter == 0) {
-              rl += c[i];
-          }
-          else if (counter == 1) {
-              ll += c[i];
-          }
-          else if (counter == 2) {
-              rf += c[i];
-          }
-          else if (counter == 3) {
-              lf += c[i];
-          }
-      }
-      else if (c[i] == '-') {
-          counter++;
-      }
-  }
-  Serial.print("Right Leg: ");
-  Serial.println(rl);
-  Serial.print("Left Leg: ");
-  Serial.println(ll);
-  Serial.print("Right Foot: ");
-  Serial.println(rf);
-  Serial.print("Left Foot: ");
-  Serial.println(lf);
-
-  int ll1 = ll[0];int ll2 = ll[1];
-  int rl1 = rl[0];int rl2 = rl[1];
-  int lf1 = lf[0];int lf2 = lf[1];
-  int rf1 = rf[0];int rf2 = rf[1];
+  
   if (sync_time < millis()) {
       sync_time = millis() + 50;
-      readChar(ll1);readChar(ll2);readChar('a');
-      readChar(rl1);readChar(rl2);readChar('b');
-      readChar(lf1);readChar(lf2);readChar('c');
-      readChar(rf1);readChar(rf2);readChar('d');
+      for (int k = 1; k < c.length(); k++) {
+        //Serial.println(c[k]);
+        readChar((c[k]));
+      }
   }
   
 }
@@ -311,6 +282,7 @@ void readChar(char ch) {
     Ottobot.sing(S_happy_short);
     break;
   }
+  
 }
 
 void setTrims() {
