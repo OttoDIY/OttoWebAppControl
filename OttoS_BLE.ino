@@ -16,6 +16,7 @@
 
 #include <SoftwareSerial.h>
 #include <Otto.h>
+#include <EEPROM.h>
 
 #define LEFTLEG 2
 #define RIGHTLEG 3
@@ -32,6 +33,13 @@ int n = 2;
 int ultrasound_threeshold = 15;
 String command = "";
 
+int v;
+int ch;
+int i;
+int positions[] = {90, 90, 90, 90};
+int8_t trims[4] = {0,0,0,0};
+int sync_time = 0;
+  
 SoftwareSerial bluetooth(BLE_TX, BLE_RX);
 Otto Ottobot;
 
@@ -56,7 +64,8 @@ void setup() {
   
   Ottobot.home();
   bluetooth.print("AT+NAMEKevinsArduino");//found this here: ftp://imall.iteadstudio.com/Modules/IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10/DS_IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10.pdf
-  
+
+  v = 0;
 }
 
 void loop() {
@@ -146,6 +155,11 @@ void checkBluetooth() {
       command = "";
       Ottobot.playGesture(OttoFart);
     }
+    else if (strstr(charBuffer, "C") == &charBuffer[0]) {
+      Stop();
+      command = "calibration";
+      Calibration(charBuffer);
+    }
   }
 }
 
@@ -199,4 +213,107 @@ void UseForce() {
 
 void Settings(String ts_ultrasound) {
   ultrasound_threeshold = ts_ultrasound.toInt();
+}
+
+void Calibration(String c) {
+  int counter = 0;
+  String rl = "";
+  String rf = "";
+  String ll = "";
+  String lf = "";
+  for (int i=1; i<c.length(); i++) {
+      if(isDigit(c[i])) {
+          if(counter == 0) {
+              rl += c[i];
+          }
+          else if (counter == 1) {
+              ll += c[i];
+          }
+          else if (counter == 2) {
+              rf += c[i];
+          }
+          else if (counter == 3) {
+              lf += c[i];
+          }
+      }
+      else if (c[i] == '-') {
+          counter++;
+      }
+  }
+  Serial.print("Right Leg: ");
+  Serial.println(rl);
+  Serial.print("Left Leg: ");
+  Serial.println(ll);
+  Serial.print("Right Foot: ");
+  Serial.println(rf);
+  Serial.print("Left Foot: ");
+  Serial.println(lf);
+
+  int ll1 = ll[0];int ll2 = ll[1];
+  int rl1 = rl[0];int rl2 = rl[1];
+  int lf1 = lf[0];int lf2 = lf[1];
+  int rf1 = rf[0];int rf2 = rf[1];
+  if (sync_time < millis()) {
+      sync_time = millis() + 50;
+      readChar(ll1);readChar(ll2);readChar('a');
+      readChar(rl1);readChar(rl2);readChar('b');
+      readChar(lf1);readChar(lf2);readChar('c');
+      readChar(rf1);readChar(rf2);readChar('d');
+  }
+  
+}
+
+
+
+
+
+
+
+
+void readChar(char ch) {
+  switch (ch) {
+  case '0'...'9':
+    v = (v * 10 + ch) - 48;
+    break;
+   case 'a':
+    trims[0] = v-90;
+    setTrims();
+    v = 0;
+    break;
+   case 'b':
+    trims[1] = v-90;
+    setTrims();
+    v = 0;
+    break;
+   case 'c':
+    trims[2] = v-90;
+    setTrims();
+    v = 0;
+    break;
+   case 'd':
+    trims[3] = v-90;
+    setTrims();
+    v = 0;
+    break;
+   case 'w':
+    for (int count=0 ; count<4 ; count++) {
+      Ottobot.walk(1,1000,1); // FORWARD
+    }
+    break;
+   case 's':
+    for (i=0 ; i<=3 ; i=i+1) {
+      EEPROM.write(i,trims[i]);
+    }
+    delay(500);
+    Ottobot.sing(S_superHappy);
+    Ottobot.crusaito(1, 1000, 25, -1);
+    Ottobot.crusaito(1, 1000, 25, 1);
+    Ottobot.sing(S_happy_short);
+    break;
+  }
+}
+
+void setTrims() {
+  Ottobot.setTrims(trims[0],trims[1],trims[2],trims[3]);
+  Ottobot._moveServos(10, positions);
 }

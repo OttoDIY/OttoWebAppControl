@@ -55,6 +55,9 @@ function UseForce() {
 function LineFollower() {
   sendData("line_follower\n");
 }
+function bipedCalibration() {
+  sendData("C"+document.getElementById("llvalue").innerText+"-"+document.getElementById("rlvalue").innerText+"-"+document.getElementById("lfvalue").innerText+"-"+document.getElementById("rfvalue").innerText+"\n");
+}
 
 function newSettings(robot) {
   if (robot == 'Otto Starter') {
