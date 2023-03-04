@@ -1,11 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;800&family=Poppins:ital,wght@0,400;0,800;1,400&display=swap');
 
-:root {
+:root[data-theme="light"] {
     --background: #e5e5e5;
     --brand-color: #2d2d64;
     --highlight: #32d900;
     --secondary-highlight: #FF5700;
     --text: #000;
+}
+
+:root[data-theme="dark"] {
+    --background: #2d2d64;
+    --brand-color: #e5e5e5;
+    --highlight: #32d900;
+    --secondary-highlight: #FF5700;
+    --text: #fff;
 }
 
 $font-primary: 'Poppins', sans-serif;

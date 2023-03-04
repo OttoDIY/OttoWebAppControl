@@ -1,11 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;800&family=Poppins:ital,wght@0,400;0,800;1,400&display=swap');
 
-:root {
+:root[data-theme="light"] {
     --background: #e5e5e5;
     --brand-color: #2d2d64;
     --highlight: #32d900;
     --secondary-highlight: #FF5700;
     --text: #000;
+}
+
+:root[data-theme="dark"] {
+    --background: #2d2d64;
+    --brand-color: #e5e5e5;
+    --highlight: #32d900;
+    --secondary-highlight: #FF5700;
+    --text: #fff;
 }
 * {
     box-sizing: border-box;
@@ -28,17 +36,23 @@ h1, h2, h3, h4, h5, h6 {
 header {
     height: 15vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 header #app--icon {
-    width: 60px;
-    margin: 1rem;
-}
+        width: 60px;
+        margin: 1rem;
+    }
 header h1 {
-    font-size: 4rem;
-}
+        font-size: 2rem;
+    }
+header > h3 {
+        font-size: 1.6rem;
+        font-weight: normal;
+        text-align: center;
+        margin-top: 1rem;
+    }
 main {
     display: flex;
     justify-content: center;
@@ -46,11 +60,10 @@ main {
     height: 85vh;
 }
 .wrapper {
-    width: 70vw;
+    width: 100%;
     height: 80%;
     border: 5px solid var(--brand-color);
-    min-width: 680px;
-    min-height: 490px;
+    max-width: 960px;
 }
 .robot--selector {
     display: flex;
@@ -84,6 +97,9 @@ main {
     height: 80%;
     background-color: #C3C7D5;
     border-radius: 23px;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
 }
 .otto--robots div {
     margin: 0 auto;
@@ -109,6 +125,7 @@ main {
 }
 .robot--icon:hover, .arrow:hover, .stop--button:hover, .setting--icon:hover, .codes--icon:hover {
     cursor: pointer;
+    transition: 200ms ease transform;
     transform: scale(0.8);
 }
 .robot--controls {
@@ -130,14 +147,19 @@ main {
     height: 90%;
     border: 10px solid var(--brand-color);
     border-radius: 23px;
+
 }
 .gamepad .dir--keys {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 40%;
-    height: 100%;
-}
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 40%;
+        height: 100%;
+    }
+.gamepad > h3 {
+        text-align: center;
+        font-size: 2rem;
+    }
 .top, .middle, .bottom {
     display: flex;
     justify-content: center;
@@ -477,6 +499,15 @@ footer img:hover {
 }
 #swal2-content, #swal2-html-container {
     color: var(--text);
+}
+@media screen and (min-width: 580px){
+        header h1 {
+            font-size: 4rem;
+        }
+
+        header > h3 {
+            font-size: 2rem;
+        }
 }
 @media screen and (max-height:400px) and (orientation:landscape){
     html {
