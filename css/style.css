@@ -349,7 +349,7 @@ footer {
 }
 footer span {
     font-size: 1.5rem;
-    padding: 1rem;
+    padding: 0;
 }
 footer span em {
     cursor: pointer;
@@ -368,6 +368,14 @@ footer .contact--icon {
 footer img:hover {
     cursor: pointer;
     transform: scale(0.9);
+}
+footer ul {
+    list-style-type: none;
+    display: flex;
+}
+footer ul li {
+    font-size: 1.6rem;
+    margin: 0 1rem;
 }
 #OttoEmotions, #OttoHumanoid, #OttoSmart, #OttoQuad {
     opacity: 0.1;
