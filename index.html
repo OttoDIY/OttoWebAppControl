@@ -48,6 +48,15 @@
         document.documentElement.dataset.theme = theme;
     </script>
     <main>
+
+        <div class="banner-w-heart">
+            <div style="display:flex;flex-direction:column;flex-wrap:wrap;">
+              <span>Stand with <a href="https://supportukrainenow.org/" target="_blank">Ukraine</a></span>
+              <span><span id="days" style="margin-right:0px;"></span> days of invasion</span>
+            </div>
+            <div id="heart"></heart></div>
+        </div>
+        
         <div class="wrapper">
             <section class="robot--selector">
                 <div class="container__bluetooth--icon"><span class="bluetooth--icon"></span></div>
@@ -611,6 +620,15 @@
                 'floating-chat.donateButton.text-color': '#fff'
             });
         });
+
+        let date = new Date("February 24, 2022 00:00:00").getTime();
+        setInterval(function() {
+            let actualdate = new Date().getTime();
+            let diff = actualdate - date;
+            let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById("days").innerHTML = days;
+
+        }, 1000);
     </script>
     <script defer src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
 </body>
