@@ -27,6 +27,20 @@
         }
     </script>
     <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js" onerror="LoadSweetOnline()"></script>
+    <style>
+        #sensors--dashboard {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+        }
+        #functions--robot {
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: baseline;
+        }
+
+    </style>
 </head>
 <body>
     <script>
@@ -133,7 +147,10 @@
                             <input type="range" orient="vertical" name="speed--slider" id="speed--slider" min="0" max="5" value="3" class="slider"/>
                         </div>
                     </div>
-                    <div id="functions--section" class="functions" style="display: none;"></div>
+                    <div id="functions--section" class="functions" style="display: none;">
+                        <div id="sensors--dashboard"></div>
+                        <div id="functions--robot"></div>
+                    </div>
                 </div>
             </section>
         </div>
@@ -224,6 +241,8 @@
     <script>
         const dir = document.getElementById("dir--keys");
         const fun = document.getElementById("functions--section");
+        const sensorDash = document.getElementById("sensors--dashboard");
+        const funRobot = document.getElementById("functions--robot");
         let rf = 60;
         let rb = 120;
         let lf = 150;
@@ -244,7 +263,7 @@
             UltrasoundSpan.classList.add("bubble");
             UltradsoundDiv.appendChild(UltrasoundImg);
             UltradsoundDiv.appendChild(UltrasoundSpan);
-            fun.appendChild(UltradsoundDiv);
+            sensorDash.appendChild(UltradsoundDiv);
         }
 
         function CreateInfrared(params) {
@@ -261,16 +280,18 @@
             InfraredSpan.style.left = "-155%";
             InfraredDiv.appendChild(InfraredImg);
             InfraredDiv.appendChild(InfraredSpan);
-            fun.appendChild(InfraredDiv);
+            sensorDash.appendChild(InfraredDiv);
         }
 
         function CreateAvoidance() {
             const avoidDiv = document.createElement("div");
             avoidDiv.classList.add("robot--functions");
+            avoidDiv.style.display = "flex";
+            avoidDiv.style.alignItems = "center";
             const avoidLabel = document.createElement("label");
             avoidLabel.classList.add("txt");
             avoidLabel.setAttribute("for", "starter-switch");
-            avoidLabel.innerText = "Avoidance Mode";
+            avoidLabel.innerText = "Avoid";
             const avoidInput = document.createElement("input");
             avoidInput.type = "checkbox";
             avoidInput.id = "starter-switch";
@@ -282,16 +303,18 @@
             avoidDiv.appendChild(avoidLabel);
             avoidDiv.appendChild(avoidInput);
             avoidDiv.appendChild(avoidToggle);
-            fun.appendChild(avoidDiv);
+            funRobot.appendChild(avoidDiv);
         }
 
         function CreateForce() {
             const forceDiv = document.createElement("div");
             forceDiv.classList.add("robot--functions");
+            forceDiv.style.display = "flex";
+            forceDiv.style.alignItems = "center";
             const forceLabel = document.createElement("label");
             forceLabel.classList.add("txt");
             forceLabel.setAttribute("for", "starter-switch-2");
-            forceLabel.innerText = "Use the force!";
+            forceLabel.innerText = "Jedi";
             const forceInput = document.createElement("input");
             forceInput.type = "checkbox";
             forceInput.id = "starter-switch-2";
@@ -303,16 +326,18 @@
             forceDiv.appendChild(forceLabel);
             forceDiv.appendChild(forceInput);
             forceDiv.appendChild(forceToggle);
-            fun.appendChild(forceDiv);
+            funRobot.appendChild(forceDiv);
         }
 
         function CreateLineFollower() {
             const followDiv = document.createElement("div");
             followDiv.classList.add("robot--functions");
+            followDiv.style.display = "flex";
+            followDiv.style.alignItems = "center";
             const followLabel = document.createElement("label");
             followLabel.classList.add("txt");
             followLabel.setAttribute("for", "starter-switch-3");
-            followLabel.innerText = "Line Follower";
+            followLabel.innerText = "Line Follow";
             const followInput = document.createElement("input");
             followInput.type = "checkbox";
             followInput.id = "starter-switch-3";
@@ -324,7 +349,7 @@
             followDiv.appendChild(followLabel);
             followDiv.appendChild(followInput);
             followDiv.appendChild(followToggle);
-            fun.appendChild(followDiv);
+            funRobot.appendChild(followDiv);
         }
 
         function CreateGesturesButtons() {

@@ -230,6 +230,7 @@ main {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    align-content: center;
     flex-wrap: wrap;
     width: 50%;
     height: 100%;
@@ -290,8 +291,8 @@ main {
 }
 .functions .txt {
     color: var(--brand-color);
-    font-size: 2rem;
-    font-weight: 800;
+    font-size: 1.5rem;
+    margin-right: 1rem;
 }
 input[type=checkbox]{
     height: 0;
@@ -301,8 +302,8 @@ input[type=checkbox]{
 .toggle {
     cursor: pointer;
     text-indent: -9999px;
-    width: 50px;
-    height: 25px;
+    width: 40px;
+    height: 15px;
     background: grey;
     display: block;
     border-radius: 100px;
@@ -314,8 +315,8 @@ input[type=checkbox]{
     position: absolute;
     top: 1px;
     left: 1px;
-    width: 22.5px;
-    height: 22.5px;
+    width: 15px;
+    height: 15px;
     background: #fff;
     border-radius: 90px;
     transition: 0.3s;

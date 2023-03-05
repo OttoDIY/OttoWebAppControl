@@ -1,7 +1,10 @@
-# Otto Web App Control
+
+#  Otto Web App Control
+
 This project is a web app that allows you to control [Otto DIY](https://www.ottodiy.com/) robots from a browser using Bluetooth connection. The application use the [p5js](https://p5js.org/) library to communicate with an Arduino board (connected to a BLE module) and [Sweetalert2](https://sweetalert2.github.io/) to make better popup boxes.
 
-## Installation
+##  Installation
+
 You can use the app online visiting: https://ottodiy.github.io/OttoWebAppControl/
 
 To install the project, follow these steps:
@@ -12,7 +15,8 @@ To install the project, follow these steps:
 
 3. _And that's it!_ Open the _index.html_ file with Google Chrome to start using the app.
 
-## Usage
+##  Usage
+
 To use the application, follow these steps:
 
 1. Upload the code to your robot depending which model you are using. [Otto Starter](https://ivanr3d.com/tools/ottocontroller/OttoS_BLE.ino), [Otto Wheels](https://ivanr3d.com/tools/ottocontroller/OttoW_BLE.ino), [Otto Ninja Starter](https://ivanr3d.com/tools/ottocontroller/OttoNinja.ino).
@@ -27,18 +31,20 @@ To use the application, follow these steps:
 
 6. Once connected, you can control the robot using the controls on the screen or the keyboard shortcuts.
 
-## Features
--  **Compatibility:** with all Otto DIY robots but other biped and vehicle robots based on Arduino could be connected too
+##  Features
 
--  **Movement control:** forward, backward, turn left and turn right
+- **Compatibility:** with all Otto DIY robots but other biped and vehicle robots based on Arduino could be connected too
 
--  **Gestures:** with Otto Starter you can execute some gestures like Happy, Sad, Angry, etc
+- **Movement control:** forward, backward, turn left and turn right
 
--  **Functions:** avoidance (biped & wheels) and line follower (only wheels) functions are available
+- **Gestures:** with Otto Starter you can execute some gestures like Happy, Sad, Angry, etc
 
--  **Sensor value display:** depending on the robot you are using you will be able to view the values of some sensors like ultrasound and infrared
+- **Functions:** avoidance (biped & wheels) and line follower (only wheels) functions are available
 
-## Contributions
+- **Sensor value display:** depending on the robot you are using you will be able to view the values of some sensors like ultrasound and infrared
+
+##  Contributions
+
 This project is open source and we welcome contributions. If you would like to help improve the project, please follow this process:
 
 1. Clone or fork the repository.
@@ -53,36 +59,54 @@ This project is open source and we welcome contributions. If you would like to h
 
 If you are looking for something specific you could help, check the [issues section](https://github.com/OttoDIY/OttoWebAppControl/issues).
 
-**If working with the app styles**, we are currently implementing [PostCSS](https://postcss.org/), so consider: 
-- For compiling styles run `npm run css:build` when your code is ready for deploy. 
+**If working with the app styles**, we are currently implementing [PostCSS](https://postcss.org/), so consider:
+
+- For compiling styles run `npm run css:build` when your code is ready for deploy.
+
 - When you are developing, you can run `npm run css:watch` to compile while you are working.
 
-## License
-### GNU General Public License v3.0
+##  License
+
+###  GNU General Public License v3.0
+
 Read it [here](https://github.com/OttoDIY/OttoWebAppControl/blob/main/LICENSE)
 
-## System Requirements
+##  System Requirements
+
 - Browser compatible with [Web Bluetooth API.](https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API) Currently we strongly recommend Google Chrome.
 
-## Known issues
+##  Known issues
+
 Currently, Google Chrome is the only browser giving a good user experience for this app. In case you are having issues using this app with another browser, we strongly recommend to try it with Chrome to confirm if it is a general issue or something with the browser.
 
-## Credits
+##  Credits
+
 Thanks to all these great people and open projects, it has been possible to make this software:
--   [Iván R. Artiles](https://github.com/IvanR3D)
+
+- [Iván R. Artiles](https://github.com/IvanR3D)
+
 - [Camilo Parra](https://github.com/cparrapa)
+
 - [Alejandro Narmona](https://github.com/alenarmona)
+
 - [OttoDIY](https://www.ottodiy.com/)
+
 - [P5js](https://p5js.org/)
+
 - [SweetAlert](https://sweetalert2.github.io/)
 
-## Screenshots
-
+##  Screenshots
+Easy to connect!
 ![enter image description here](https://ivanr3d.com/assets/img/screenshots/OttoWAC/OttoWAC_use-OttoStarter.gif)
 
+Light/Dark mode available!
 ![enter image description here](https://ivanr3d.com/assets/img/screenshots/OttoWAC/OttoWAC_use-OttoWheels.gif)
 
-## Additional links
+Now Otto Wheels can be controlled using a joystick!
+![enter image description here](https://ivanr3d.com/assets/img/screenshots/OttoWAC/wheels--joystick.gif)
+
+##  Additional links
+
 - Official p5.js documentation: [https://p5js.org/](https://p5js.org/)
 
 - Official Sweetalert2 documentation: [https://sweetalert2.github.io/](https://sweetalert2.github.io/)
