@@ -110,6 +110,9 @@ main {
 .calibration--icon {
     background-image: url('../img/calibration.svg');
 }
+.calibration-screen {
+    height: 80vh;
+}
 .robot--icon:hover, .arrow:hover, .stop--button:hover, .setting--icon:hover, .codes--icon:hover, .calibration--icon:hover {
     cursor: pointer;
     transition: 200ms ease transform;
@@ -227,6 +230,17 @@ main {
     background: var(--highlight);
     cursor: pointer;
     border-radius: 5.5px;
+}
+#sensors--dashboard {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+}
+#functions--robot {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: baseline;
 }
 .gamepad .functions {
     display: flex;
