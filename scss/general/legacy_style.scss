@@ -88,12 +88,12 @@ main {
 .otto--robots div {
     margin: 0 auto;
 }
-.container__setting--icon, .container__arduino--icon {
+.container__setting--icon, .container__arduino--icon, .container__calibration--icon {
     width: 80px;
     height: 80px;
     padding: 1%;
 }
-.setting--icon, .codes--icon {
+.setting--icon, .codes--icon, .calibration--icon {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -107,7 +107,10 @@ main {
 .codes--icon {
     background-image: url('../img/arduino-download-btn.png');
 }
-.robot--icon:hover, .arrow:hover, .stop--button:hover, .setting--icon:hover, .codes--icon:hover {
+.calibration--icon {
+    background-image: url('../img/calibration.svg');
+}
+.robot--icon:hover, .arrow:hover, .stop--button:hover, .setting--icon:hover, .codes--icon:hover, .calibration--icon:hover {
     cursor: pointer;
     transition: 200ms ease transform;
     transform: scale(0.8);

@@ -1,0 +1,360 @@
+<html>
+  <head>
+    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
+    <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
+    <script language="javascript" type="text/javascript" src="libraries/p5.ble.js"></script>
+    <script language="javascript" type="text/javascript" src="js/bluetooth.js"></script>
+    <script language="javascript" type="text/javascript" src="js/commands.js"></script>
+    <script language="javascript" type="text/javascript" src="js/BluetoothGUI.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      a {
+        color: #32d900;
+      }
+      article {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #OttoHead {
+        display: flex;
+        justify-content: space-around;
+        width: 194px;
+        height: 90px;
+        border: 4px solid black;
+        border-bottom: 1px solid black;
+        background-color: #32d900;
+        border-radius: 7px 7px 0 0;
+      }
+
+      #Eyes--container {
+        display: flex;
+        justify-content: space-around;
+        width: 80%;
+        padding-top: 20px;
+      }
+
+      .OttoEye {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        background-color: white;
+      }
+
+      .OttoEye--iris {
+        width: 70%;
+        height: 70%;
+        border: 2px solid black;
+        border-radius: 50px;
+        background-color: black;
+        margin: 5px auto;
+      }
+
+      #OttoBody {
+        display: flex;
+        justify-content: space-between;
+        width: 200px;
+        height: 110px;
+        border: 4px solid black;
+        border-radius: 0 0 7px 7px;
+      }
+
+      #Legs--container, #Heels--container, #Feet--container {
+        display: flex;
+        justify-content: space-between;
+        width: 200px;
+      }
+
+      #Feet--container {
+        width: 295px;
+        margin-top: -2px;
+      }
+
+      .OttoLeg {
+        display: flex;
+        justify-content: space-between;
+        width: 40px;
+        height: 50px;
+        border: 4px solid black;
+        margin: 0 3%;
+      }
+      .OttoLeg--heel {
+        display: flex;
+        justify-content: space-between;
+        width: 50px;
+        height: 50px;
+        border: 4px solid black;
+        border-bottom: 2px;
+        border-radius: 15px 15px 0 0;
+        background-color: white;
+        margin-top: -5%;
+      }
+
+      .OttoLeg--foot {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100px;
+        height: 10px;
+        border: 4px solid black;
+      }
+
+      .Left {
+        border-radius: 8px 8px 0 0;
+      }
+
+      .Right {
+        border-radius: 8px 8px 0 0;
+      }
+
+      .line {
+          width: 4px;
+          height: 100%;
+          background: black;
+          margin: 0 10px;
+      }
+
+      .h-line {
+        width: 100%;
+        height: 4px;
+        background: black;
+      }
+
+      input[type="range"] {
+        transform: rotate(270deg);
+        margin-top: 50%;
+        margin-bottom: 50%;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 12px;
+        background: #2d2d64;
+        outline: none;
+        transition: opacity .2s;
+        border-radius: 24.5px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: red;
+        border-radius: 10px;
+      }
+
+      .slider-btn {
+        width: 25px;
+        height: 25px;
+        background-color: #32d900;
+        border: none;
+        border-radius: 20%;
+        color: white;
+        font-size: large;
+        font-weight: bold;
+      }
+
+      #controls {
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+      }
+
+      #controls div {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #right-slider--container {
+        top: 5%;
+        left: 30%;
+      }
+
+      #left-slider--container {
+        top: 5%;
+        right: 30%;
+      }
+
+      #right-foot-slider--container {
+        top: 20%;
+        left: 20%;
+      }
+
+      #left-foot-slider--container {
+        top: 20%;
+        right: 20%;
+      }
+
+      #settings-btns {
+        display: flex;
+        justify-content: center;
+        margin-top: 2%;
+      }
+
+      #settings-btns button {
+        position: relative;
+        padding: 10px;
+        margin: 0 20px;
+        color: white;
+        font-size: 18px;
+        font-weight: bold;
+        border: none;
+        border-radius: 20%;
+      }
+
+      .test-btn {
+        background-color: #32d900;
+      }
+
+      .save-btn {
+        background-color: #FF5700;
+      }
+
+      button:hover {
+        transform: scale(1.2);
+        transition-duration: .4s;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div id="controls">
+        <div id="right-slider--container">
+          <label id="rlvalue">90</label>
+          <button id="right-leg-plus" class="slider-btn">+</button>
+          <input type="range" class="slider" min="0" max="180" id="right-leg-slider"/>
+          <button id="right-leg-minus" class="slider-btn">-</button>
+        </div>
+        <div id="left-slider--container">
+          <label id="llvalue">90</label>
+          <button id="left-leg-plus" class="slider-btn">+</button>
+          <input type="range" class="slider" min="0" max="180" id="left-leg-slider"/>
+          <button id="left-leg-minus" class="slider-btn">-</button>
+        </div>
+        <div id="right-foot-slider--container">
+          <label id="rfvalue">90</label>
+          <button id="right-foot-plus" class="slider-btn">+</button>
+          <input type="range" class="slider" min="0" max="180" id="right-foot-slider"/>
+          <button id="right-foot-minus" class="slider-btn">-</button>
+        </div>
+        <div id="left-foot-slider--container">
+          <label id="lfvalue">90</label>
+          <button id="left-foot-plus" class="slider-btn">+</button>
+          <input type="range" class="slider" min="0" max="180" id="left-foot-slider"/>
+          <button id="left-foot-minus" class="slider-btn">-</button>
+        </div>
+      </div>
+
+      <article>
+        <div id="OttoHead">
+          <div class="h-line" style="position: absolute; width: inherit; margin-top: 4px;"></div>
+          <div class="line"></div>
+          <div id="Eyes--container">
+            <div class="OttoEye">
+              <div class="OttoEye--iris"></div>
+            </div>
+            <div class="OttoEye">
+              <div class="OttoEye--iris"></div>
+            </div>
+          </div>
+          <div class="line"></div>
+        </div>
+
+        <div id="OttoBody">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="h-line" style="position: absolute; width: inherit; margin-top: 100px;"></div>
+        </div>
+
+        <div id="Legs--container">
+          <div class="OttoLeg">
+            <div class="line" style="margin: 0 3px;"></div>
+            <div class="line" style="margin: 0 3px;"></div>
+          </div>
+          <div class="OttoLeg">
+            <div class="line" style="margin: 0 3px;"></div>
+            <div class="line" style="margin: 0 3px;"></div>
+          </div>
+        </div>
+
+        <div id="Heels--container">
+          <div class="OttoLeg--heel">
+            <div class="line" style="margin: 0 3px;"></div>
+            <div class="line" style="margin: 0 3px;"></div>
+          </div>
+          <div class="OttoLeg--heel">
+            <div class="line" style="margin: 0 3px;"></div>
+            <div class="line" style="margin: 0 3px;"></div>
+          </div>
+        </div>
+
+        <div id="Feet--container">
+          <div class="OttoLeg--foot Left">
+            <div class="h-line"></div>
+          </div>
+          <div class="OttoLeg--foot Right">
+            <div class="h-line"></div>
+          </div>
+        </div>
+      </article>
+
+      <div id="settings-btns">
+        <button class="test-btn" onclick="Forward()">Walk Test</button>
+        <button class="save-btn">Save</button>
+      </div>
+    </main>
+
+    <script>
+      const r = document.getElementById("right-slider--container");
+      const l = document.getElementById("left-slider--container");
+      const rfoot = document.getElementById("right-foot-slider--container");
+      const lfoot = document.getElementById("left-foot-slider--container");
+
+      const rlslider = document.getElementById("right-leg-slider");
+      const llslider = document.getElementById("left-leg-slider");
+      const rfslider = document.getElementById("right-foot-slider");
+      const lfslider = document.getElementById("left-foot-slider");
+
+      const RightLeg = document.getElementsByClassName("OttoLeg")[0];
+      const LeftLeg = document.getElementsByClassName("OttoLeg")[1];
+      const RightFoot = document.getElementsByClassName("OttoLeg--heel")[0];
+      const LeftFoot = document.getElementsByClassName("OttoLeg--heel")[1];
+
+      const RightLegPlus = document.getElementById("right-leg-plus");
+      const RightLegMinus = document.getElementById("right-leg-minus");
+      const LeftLegPlus = document.getElementById("left-leg-plus");
+      const LeftLegMinus = document.getElementById("left-leg-minus");
+      const RightFootPlus = document.getElementById("right-foot-plus");
+      const RightFootMinus = document.getElementById("right-foot-minus");
+      const LeftFootPlus = document.getElementById("left-foot-plus");
+      const LeftFootMinus = document.getElementById("left-foot-minus");
+
+      r.onmouseover = function() { RightLeg.style.backgroundColor = "red"; };
+      r.onmouseout = function() { RightLeg.style.backgroundColor = "white"; };
+      l.onmouseover = function() { LeftLeg.style.backgroundColor = "red"; };
+      l.onmouseout = function() { LeftLeg.style.backgroundColor = "white"; };
+      rfoot.onmouseover = function() { RightFoot.style.backgroundColor = "red"; document.getElementsByClassName("OttoLeg--foot")[0].style.backgroundColor = "red"; };
+      rfoot.onmouseout = function() { RightFoot.style.backgroundColor = "white"; document.getElementsByClassName("OttoLeg--foot")[0].style.backgroundColor = "white"; };
+      lfoot.onmouseover = function() { LeftFoot.style.backgroundColor = "red"; document.getElementsByClassName("OttoLeg--foot")[1].style.backgroundColor = "red"; };
+      lfoot.onmouseout = function() { LeftFoot.style.backgroundColor = "white"; document.getElementsByClassName("OttoLeg--foot")[1].style.backgroundColor = "white"; };
+
+      RightLegPlus.onclick = function() { rlslider.value++; rlvalue.innerText = rlslider.value; bipedCalibration("rl");};
+      RightLegMinus.onclick = function() { rlslider.value--; rlvalue.innerText = rlslider.value; bipedCalibration("rl");};
+      LeftLegPlus.onclick = function() { llslider.value++; llvalue.innerText = llslider.value; };
+      LeftLegMinus.onclick = function() { llslider.value--; llvalue.innerText = llslider.value; };
+      RightFootPlus.onclick = function() { rfslider.value++; rfvalue.innerText = rfslider.value; };
+      RightFootMinus.onclick = function() { rfslider.value--; rfvalue.innerText = rfslider.value; };
+      LeftFootPlus.onclick = function() { lfslider.value++; lfvalue.innerText = lfslider.value; };
+      LeftFootMinus.onclick = function() { lfslider.value--; lfvalue.innerText = lfslider.value; };
+
+      rlslider.oninput = function() { rlvalue.innerText = rlslider.value; bipedCalibration("rl");};
+      llslider.oninput = function() { llvalue.innerText = llslider.value; };
+      rfslider.oninput = function() { rfvalue.innerText = rfslider.value; };
+      lfslider.oninput = function() { lfvalue.innerText = lfslider.value; };
+    </script>
+  </body>
+</html>

@@ -16,6 +16,7 @@
 
 #include <SoftwareSerial.h>
 #include <Otto.h>
+#include <EEPROM.h>
 
 #define LEFTLEG 2
 #define RIGHTLEG 3
@@ -32,6 +33,15 @@ int n = 2;
 int ultrasound_threeshold = 15;
 String command = "";
 
+int v;
+int ch;
+int i;
+int positions[] = {90, 90, 90, 90};
+int8_t trims[4] = {0,0,0,0};
+unsigned long sync_time = 0;
+
+bool calibration = false;
+  
 SoftwareSerial bluetooth(BLE_TX, BLE_RX);
 Otto Ottobot;
 
@@ -56,7 +66,8 @@ void setup() {
   
   Ottobot.home();
   bluetooth.print("AT+NAMEKevinsArduino");//found this here: ftp://imall.iteadstudio.com/Modules/IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10/DS_IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10.pdf
-  
+
+  v = 0;
 }
 
 void loop() {
@@ -146,6 +157,16 @@ void checkBluetooth() {
       command = "";
       Ottobot.playGesture(OttoFart);
     }
+    else if (strstr(charBuffer, "C") == &charBuffer[0]) {
+      
+      if (calibration == false) {
+        Ottobot._moveServos(10, positions);
+        calibration = true;
+        delay(50);
+      } 
+      command = "calibration";
+      Calibration(charBuffer);
+    }
   }
 }
 
@@ -199,4 +220,72 @@ void UseForce() {
 
 void Settings(String ts_ultrasound) {
   ultrasound_threeshold = ts_ultrasound.toInt();
+}
+
+void Calibration(String c) {
+  
+  if (sync_time < millis()) {
+      sync_time = millis() + 50;
+      for (int k = 1; k < c.length(); k++) {
+        //Serial.println(c[k]);
+        readChar((c[k]));
+      }
+  }
+  
+}
+
+
+
+
+
+
+
+
+void readChar(char ch) {
+  switch (ch) {
+  case '0'...'9':
+    v = (v * 10 + ch) - 48;
+    break;
+   case 'a':
+    trims[0] = v-90;
+    setTrims();
+    v = 0;
+    break;
+   case 'b':
+    trims[1] = v-90;
+    setTrims();
+    v = 0;
+    break;
+   case 'c':
+    trims[2] = v-90;
+    setTrims();
+    v = 0;
+    break;
+   case 'd':
+    trims[3] = v-90;
+    setTrims();
+    v = 0;
+    break;
+   case 'w':
+    for (int count=0 ; count<4 ; count++) {
+      Ottobot.walk(1,1000,1); // FORWARD
+    }
+    break;
+   case 's':
+    for (i=0 ; i<=3 ; i=i+1) {
+      EEPROM.write(i,trims[i]);
+    }
+    delay(500);
+    Ottobot.sing(S_superHappy);
+    Ottobot.crusaito(1, 1000, 25, -1);
+    Ottobot.crusaito(1, 1000, 25, 1);
+    Ottobot.sing(S_happy_short);
+    break;
+  }
+  
+}
+
+void setTrims() {
+  Ottobot.setTrims(trims[0],trims[1],trims[2],trims[3]);
+  Ottobot._moveServos(10, positions);
 }
