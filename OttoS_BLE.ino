@@ -167,6 +167,14 @@ void checkBluetooth() {
       command = "calibration";
       Calibration(charBuffer);
     }
+    else if (strstr(charBuffer, "walk_test") == &charBuffer[0]) {
+      command = "";
+      Ottobot.walk(3, 1000, FORWARD);
+    }
+    else if (strstr(charBuffer, "save_calibration") == &charBuffer[0]) {
+      command = "";
+      readChar('s');
+    }
   }
 }
 
@@ -223,23 +231,13 @@ void Settings(String ts_ultrasound) {
 }
 
 void Calibration(String c) {
-  
   if (sync_time < millis()) {
       sync_time = millis() + 50;
       for (int k = 1; k < c.length(); k++) {
-        //Serial.println(c[k]);
         readChar((c[k]));
       }
-  }
-  
+  } 
 }
-
-
-
-
-
-
-
 
 void readChar(char ch) {
   switch (ch) {
@@ -266,11 +264,6 @@ void readChar(char ch) {
     setTrims();
     v = 0;
     break;
-   case 'w':
-    for (int count=0 ; count<4 ; count++) {
-      Ottobot.walk(1,1000,1); // FORWARD
-    }
-    break;
    case 's':
     for (i=0 ; i<=3 ; i=i+1) {
       EEPROM.write(i,trims[i]);
@@ -282,10 +275,9 @@ void readChar(char ch) {
     Ottobot.sing(S_happy_short);
     break;
   }
-  
 }
 
 void setTrims() {
   Ottobot.setTrims(trims[0],trims[1],trims[2],trims[3]);
-  Ottobot._moveServos(10, positions);
+  Ottobot._moveServos(10, positions); 
 }
