@@ -1,0 +1,68 @@
+.banner-w-heart {
+    position: fixed;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    background-color: #005BBB;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    
+    span {
+      margin-right: 15px;
+    }
+    
+    a {
+      color: #FDB813;
+    }
+    
+    #heart {
+      position: relative;
+      background-color: #fdd302;
+      height: 25px;
+      width: 25px;
+      transform: rotate(-45deg);
+      animation-name: beat;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      
+      &::before {
+        content: "";
+        background: rgb(5,63,179);
+        background: linear-gradient(-135deg, rgba(5,63,179,1) 70%, rgba(253,211,2,1) 30%);
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        top: -13px;
+        left: 0px;
+        border-radius: 50%;
+      }
+      
+      &::after {
+        content: "";
+        background: rgb(5,63,179);
+        background: linear-gradient(-135deg, rgba(5,63,179,1) 70%, rgba(253,211,2,1) 30%);
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        top: 0px;
+        left: 13px;
+        border-radius: 50%; 
+      }
+    }
+    
+    @keyframes beat {
+      0% {
+        transform: scale(1) rotate(-45deg);
+      }
+      50% {
+        transform: scale(0.6) rotate(-45deg);
+      }
+    }
+  }
+  

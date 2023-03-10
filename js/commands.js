@@ -55,7 +55,22 @@ function UseForce() {
 function LineFollower() {
   sendData("line_follower\n");
 }
-
+function bipedCalibration() {
+  sendData("C"+document.getElementById("llvalue").innerText+"a"+document.getElementById("rlvalue").innerText+"b"+document.getElementById("lfvalue").innerText+"c"+document.getElementById("rfvalue").innerText+"d"+"\n");
+}
+function WalkTest() {
+  sendData("walk_test\n");
+}
+function SaveCalibration() {
+  sendData("save_calibration\n");
+  Swal.fire({
+    position: 'center',
+    icon: 'success',
+    title: 'Calibration saved',
+    showConfirmButton: false,
+    timer: 1500
+  })
+}
 function newSettings(robot) {
   if (robot == 'Otto Starter') {
     ts_ultrasound = document.getElementById("ts_ultrasound").value;

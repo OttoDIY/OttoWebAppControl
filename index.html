@@ -19,28 +19,7 @@
     <script language="javascript" type="text/javascript" src="js/BluetoothGUI.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
     <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
-    <script>
-        function LoadSweetOnline() {
-            let script = document.createElement("script");
-            script.src = "https://cdn.jsdelivr.net/npm/sweetalert2@10";
-            document.head.append(script);
-        }
-    </script>
-    <script src="node_modules/sweetalert2/dist/sweetalert2.all.min.js" onerror="LoadSweetOnline()"></script>
-    <style>
-        #sensors--dashboard {
-            display: flex;
-            width: 100%;
-            justify-content: flex-start;
-        }
-        #functions--robot {
-            display: flex;
-            width: 100%;
-            flex-direction: column;
-            align-items: baseline;
-        }
-
-    </style>
+    <script src="vendor/sweetalert2.all.min.js"></script>
 </head>
 <body>
     <script>
@@ -71,6 +50,7 @@
                 </div>
                 <div class="container__setting--icon"><span class="setting--icon" onclick="settings()"></span></div>
                 <div class="container__arduino--icon"><span class="codes--icon" onclick="arduinoCodes()"></span></div>
+                <div class="container__calibration--icon"><span class="calibration--icon" onclick="calibration()"></span></div>
                 <div class="tumbler-wrapper" onclick="changeTheme()">
                     <div class="tumbler"></div>
                     <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 499.712 499.712" style="enable-background:new 0 0 499.712 499.712;" xml:space="preserve">
@@ -180,6 +160,7 @@
         </ul>
         <img class="contact--icon" src="img/contact-icon.webp" alt="Otto robot with headphones as a call center assistant" onclick="FeedbackModal()"/>
     </footer>
+
     <script>
         function getUserPreference() {
             return localStorage.getItem('theme') || 'light';
@@ -479,6 +460,37 @@
                 '<p>Upload the code <ul><li><a href="OttoS_BLE.ino" target="_blank">OttoStarter</a></li> <li><a href="OttoW_BLE.ino" target="_blank">OttoWheels</a></li> <li><a href="OttoNinja.ino" target="_blank">Otto Ninja Starter</a></li></ul></p>'
             })
         }
+
+        function calibration() {
+            
+            let script = document.createElement('script');
+            script.setAttribute('type', 'text/javascript');
+            script.setAttribute('src', 'js/calib-scripts.js');
+            document.head.appendChild(script);
+            
+            if (OttoConnected) {
+                Swal.fire({
+                    customClass: 'calibration-screen',
+                    width: 1000,
+                    html: '<style> article { display: flex; flex-direction: column; justify-content: center; align-items: center; } #OttoHead { display: flex; justify-content: space-around; width: 194px; height: 90px; border: 4px solid black; border-bottom: 1px solid black; background-color: #32d900; border-radius: 7px 7px 0 0; } #Eyes--container { display: flex; justify-content: space-around; width: 80%; padding-top: 20px; } .OttoEye { width: 50px; height: 50px; border-radius: 50px; background-color: white; } .OttoEye--iris { width: 70%; height: 70%; border: 2px solid black; border-radius: 50px; background-color: black; margin: 5px auto; } #OttoBody { display: flex; justify-content: space-between; width: 200px; height: 110px; border: 4px solid black; border-radius: 0 0 7px 7px; background-color: white; } #Legs--container, #Heels--container, #Feet--container { display: flex; justify-content: space-between; width: 200px; } #Feet--container { width: 295px; margin-top: -2px; } .OttoLeg { display: flex; justify-content: space-between; width: 40px; height: 50px; border: 4px solid black; margin: 0 3%; background-color: white; } .OttoLeg--heel { display: flex; justify-content: space-between; width: 50px; height: 50px; border: 4px solid black; border-bottom: 2px; border-radius: 15px 15px 0 0; background-color: white; margin-top: -5%; } .OttoLeg--foot { display: flex; flex-direction: column; justify-content: center; width: 100px; height: 10px; border: 4px solid black; background-color: white; } .Left { border-radius: 8px 8px 0 0; } .Right { border-radius: 8px 8px 0 0; } .line { width: 4px; height: 100%; background: black; margin: 0 10px; } .h-line { width: 100%; height: 4px; background: black; } .slider-calib { transform: rotate(270deg); margin-top: 50%; margin-bottom: 50%; -webkit-appearance: none; appearance: none; height: 12px; background: #fff; outline: none; transition: opacity .2s; border-radius: 24.5px; } ::-webkit-scrollbar-thumb { background: red; border-radius: 10px; } .slider-btn { width: 25px; height: 25px; background-color: #32d900; border: none; border-radius: 20%; color: white; font-size: large; font-weight: bold; } #controls { width: 100%; height: 100%; position: absolute; } #controls div { position: absolute; display: flex; flex-direction: column; align-items: center; } #right-slider--container { top: 5%; left: 30%; } #left-slider--container { top: 5%; right: 30%; } #right-foot-slider--container { top: 20%; left: 20%; } #left-foot-slider--container { top: 20%; right: 20%; } #settings-btns { display: flex; justify-content: center; margin-top: 2%; } #settings-btns button { position: relative; padding: 10px; margin: 0 20px; color: white; font-size: 18px; font-weight: bold; border: none; border-radius: 20%; } .test-btn { background-color: #32d900; } .save-btn { background-color: #FF5700; } .calib-btn:hover { transform: scale(1.2); transition-duration: .4s; } </style> <div id="controls"> <div id="right-slider--container"> <label id="rlvalue">90</label> <button id="right-leg-plus" class="slider-btn calib-btn">+</button> <input type="range" class="slider-calib" min="0" max="180" id="right-leg-slider"/> <button id="right-leg-minus" class="slider-btn calib-btn">-</button> </div> <div id="left-slider--container"> <label id="llvalue">90</label> <button id="left-leg-plus" class="slider-btn calib-btn">+</button> <input type="range" class="slider-calib" min="0" max="180" id="left-leg-slider"/> <button id="left-leg-minus" class="slider-btn calib-btn">-</button> </div> <div id="right-foot-slider--container"> <label id="rfvalue">90</label> <button id="right-foot-plus" class="slider-btn calib-btn">+</button> <input type="range" class="slider-calib" min="0" max="180" id="right-foot-slider"/> <button id="right-foot-minus" class="slider-btn calib-btn">-</button> </div> <div id="left-foot-slider--container"> <label id="lfvalue">90</label> <button id="left-foot-plus" class="slider-btn calib-btn">+</button> <input type="range" class="slider-calib" min="0" max="180" id="left-foot-slider"/> <button id="left-foot-minus" class="slider-btn calib-btn">-</button> </div> </div> <article> <div id="OttoHead"> <div class="h-line" style="position: absolute; width: inherit; margin-top: 4px;"></div> <div class="line"></div> <div id="Eyes--container"> <div class="OttoEye"> <div class="OttoEye--iris"></div> </div> <div class="OttoEye"> <div class="OttoEye--iris"></div> </div> </div> <div class="line"></div> </div> <div id="OttoBody"> <div class="line"></div> <div class="line"></div> <div class="h-line" style="position: absolute; width: inherit; margin-top: 100px;"></div> </div> <div id="Legs--container"> <div class="OttoLeg"> <div class="line" style="margin: 0 3px;"></div> <div class="line" style="margin: 0 3px;"></div> </div> <div class="OttoLeg"> <div class="line" style="margin: 0 3px;"></div> <div class="line" style="margin: 0 3px;"></div> </div> </div> <div id="Heels--container"> <div class="OttoLeg--heel"> <div class="line" style="margin: 0 3px;"></div> <div class="line" style="margin: 0 3px;"></div> </div> <div class="OttoLeg--heel"> <div class="line" style="margin: 0 3px;"></div> <div class="line" style="margin: 0 3px;"></div> </div> </div> <div id="Feet--container"> <div class="OttoLeg--foot Left"> <div class="h-line"></div> </div> <div class="OttoLeg--foot Right"> <div class="h-line"></div> </div> </div> </article> <div id="settings-btns"> <button class="test-btn calib-btn" onclick="WalkTest()">Walk Test</button> <button class="save-btn calib-btn" onclick="SaveCalibration()">Save</button> </div>'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        document.head.removeChild(document.head.lastChild);
+                    } else if (result.isDismissed) {
+                        document.head.removeChild(document.head.lastChild);
+                    }
+                })
+            } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Connect an Otto',
+                showConfirmButton: false,
+                timer: 2500
+            })
+        }
+    }
     </script>
 
     <!-- Joystick scripts -->
