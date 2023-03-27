@@ -515,9 +515,15 @@ footer ul li {
     color: var(--text);
 }
 
-@media screen and (max-height:400px) and (orientation:landscape) {
+@media screen and (max-height:500px) and (orientation:landscape) {
     html {
         overflow-y: scroll;
+    }
+    main {
+        padding-top: 4rem;
+    }
+    .banner-w-heart {
+        display: none;
     }
     header {
         height: 10vh;
@@ -530,12 +536,19 @@ footer ul li {
     }
     .wrapper {
         min-height: 330px;
+        margin: 1rem 0.5rem;
     }
     .robot--selector {
         height: 15%;
     }
     .robot--icon {
         width: 25px;
+    }
+    .otto--robots {
+        width: auto;
+    }
+    .otto--robots div {
+        margin: 0 1rem;
     }
     .container__setting--icon {
         width: 60px;
@@ -544,6 +557,10 @@ footer ul li {
     .container__arduino--icon {
         width: 60px;
         height: 60px;
+    }
+    .calibration--icon {
+        width: 40px;
+        height: 40px;
     }
     .gamepad {
         width: 90%;
