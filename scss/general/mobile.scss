@@ -1,0 +1,92 @@
+@media screen and (max-height:500px) and (orientation:landscape) {
+    main {
+        padding-top: 2rem;
+    }
+    .banner-w-heart {
+        display: none;
+    }
+    header {
+        height: 10vh;
+    }
+    header #app--icon {
+        width: 30px;
+    }
+    header h1 {
+        font-size: 2rem;
+    }
+    .wrapper {
+        min-height: 330px;
+        margin: 1rem 0.5rem;
+    }
+    .robot--selector {
+        height: 15%;
+    }
+    .robot--icon {
+        width: 25px;
+    }
+    .otto--robots {
+        width: auto;
+    }
+    .otto--robots div {
+        margin: 0 1rem;
+    }
+    .container__setting--icon, .container__arduino--icon, .container__calibration--icon {
+        width: 60px;
+        height: 60px;
+    }
+    .robot--controls {
+        height: 85%;
+    }
+    .gamepad {
+        width: 90%;
+        #joystick--canvas {
+            padding-top: 3rem;
+        }
+    }
+    .arrow, .stop--button {
+        background-size: 70%;
+        width: 40px;
+        height: 40px;
+    }
+    .gamepad .mode--section {
+        font-size: 1.5rem;
+    }
+    .tumbler-wrapper {
+        height: 25px;
+        width: 60px;
+    }
+    .tumbler {
+        height: 23px;
+        width: 23px;
+    }
+    .tumbler-night {
+        transform: translateX(calc(100% - -5px));
+    }
+    .functions .function--btn {
+        width: 60px;
+        height: 60px;
+        margin: 0 1rem;
+        padding: 0 0.5rem;
+        font-size: 2.5rem;
+    }
+    footer {
+        display: none;
+        margin-top: 2rem;
+    }
+    footer span {
+        font-size: 1rem;
+    }
+    .footer--logo {
+        width: 60px;
+    }
+    footer .contact--icon {
+        width: 6rem;
+    }
+    .container__bluetooth--icon {
+        width: 30px;
+        height: 30px;
+    }
+    .bluetooth--icon {
+        background-size: contain;
+    }
+}
