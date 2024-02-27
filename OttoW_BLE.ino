@@ -14,8 +14,11 @@
 *    By: Iván R. Artiles
 */
 
-#include <SoftwareSerial.h>
+#ifdef ARDUINO_ARCH_ESP32
+#include <ESP32Servo.h>
+#else
 #include <Servo.h>
+#endif
 
 #define RIGHTSERVO 2
 #define LEFTSERVO 3
@@ -24,8 +27,11 @@
 #define BLE_TX 11
 #define BLE_RX 12
 
+#if not defined(ARDUINO_ARCH_ESP32) // disable LineFollower ... Esp32 only has one analog ... maybe fix to use with digital line sensors
 int line_sensor_right = A0;
 int line_sensor_left = A1;
+#endif
+
 int speed_right_forward = 60;
 int speed_right_backward = 120;
 int speed_left_forward = 150;
@@ -37,7 +43,16 @@ int ultrasound_threeshold = 15;
 int rightValue, leftValue = 0;
 String command = "";
 
-SoftwareSerial bluetooth(BLE_TX, BLE_RX);
+#if defined(ARDUINO_ARCH_ESP32)
+  #include "BluetoothSerial.h"
+  String device_name = "Otto BT Esp32";
+  BluetoothSerial bluetooth;
+#else
+  #include <SoftwareSerial.h>
+  String device_name = "Otto BT";
+  SoftwareSerial bluetooth(BLE_TX, BLE_RX);
+#endif
+
 Servo servo_right;
 Servo servo_left;
 
@@ -54,19 +69,21 @@ long ultrasound_distance() {
 }
 
 void setup() {
-
+  Serial.begin(9600);
   pinMode(TRIG, OUTPUT);
   pinMode(ECHO, INPUT);
-  
   servo_right.write(speed_stop);
   servo_left.write(speed_stop);
   servo_right.attach(RIGHTSERVO);
   servo_left.attach(LEFTSERVO);
-  
+
+#if defined(ARDUINO_ARCH_ESP32)
+  bluetooth.begin(device_name);
+  //bluetooth.deleteAllBondedDevices(); // Uncomment this to delete paired devices; Must be called after begin
+#else
   bluetooth.begin(9600);
-  Serial.begin(9600);
-  
-  bluetooth.print("AT+NAMEKevinsArduino");//found this here: ftp://imall.iteadstudio.com/Modules/IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10/DS_IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10.pdf
+  bluetooth.print("AT+NAME" + device_name);
+#endif
 
 }
 
@@ -122,10 +139,12 @@ void checkBluetooth() {
     else if (strstr(charBuffer, "infrared") == &charBuffer[0]) {
       servo_right.detach();
       servo_left.detach();
+#if not defined(ARDUINO_ARCH_ESP32) // disable LineFollower ... Esp32 only has one analog ... maybe fix to use digital line sensors
       rightValue = analogRead(line_sensor_right);
       leftValue = analogRead(line_sensor_left);
       String txt = "R: " + String(rightValue) + " L: " + String(leftValue);
       bluetooth.print(txt);
+#endif
     }
     else if (strstr(charBuffer, "avoidance") == &charBuffer[0]) {
       command = "avoidance";
@@ -212,6 +231,7 @@ void Avoidance() {
 }
 
 void LineFollower() {
+#if not defined(ARDUINO_ARCH_ESP32) // disable LineFollower ... Esp32 only has one analog ... maybe fix to use digital line sensors
   rightValue = analogRead(line_sensor_right);
   leftValue = analogRead(line_sensor_left);
 
@@ -227,7 +247,7 @@ void LineFollower() {
     servo_right.write(speed_right_forward+30);
     servo_left.write(speed_left_forward+30);
   }
-  
+#endif  
 }
 
 void Settings(String speeds) {
