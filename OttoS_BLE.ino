@@ -14,7 +14,6 @@
 *    By: Iván R. Artiles
 */
 
-#include <SoftwareSerial.h>
 #include <Otto.h>
 #include <EEPROM.h>
 
@@ -27,6 +26,16 @@
 #define BLE_TX 11
 #define BLE_RX 12
 #define BUZZER 13
+
+#if defined(ARDUINO_ARCH_ESP32)
+  #include "BluetoothSerial.h"
+  String device_name = "Otto BT Esp32";
+  BluetoothSerial bluetooth;
+#else
+  #include <SoftwareSerial.h>
+  String device_name = "Otto BT";
+  SoftwareSerial bluetooth(BLE_TX, BLE_RX);
+#endif
 
 int move_speed[] = {3000, 2000, 1000, 750, 500, 250};
 int n = 2;
@@ -42,7 +51,6 @@ unsigned long sync_time = 0;
 
 bool calibration = false;
   
-SoftwareSerial bluetooth(BLE_TX, BLE_RX);
 Otto Ottobot;
 
 long ultrasound_distance() {
@@ -58,15 +66,20 @@ long ultrasound_distance() {
 }
 
 void setup() {
+  Serial.begin(9600);
   Ottobot.init(LEFTLEG, RIGHTLEG, LEFTFOOT, RIGHTFOOT, true, BUZZER);
   pinMode(TRIG, OUTPUT); 
   pinMode(ECHO, INPUT);
+
+#if defined(ARDUINO_ARCH_ESP32)
+  bluetooth.begin(device_name);
+  //bluetooth.deleteAllBondedDevices(); // Uncomment this to delete paired devices; Must be called after begin
+#else
   bluetooth.begin(9600);
-  Serial.begin(9600);
+  bluetooth.print("AT+NAME" + device_name);
+#endif
   
   Ottobot.home();
-  bluetooth.print("AT+NAMEKevinsArduino");//found this here: ftp://imall.iteadstudio.com/Modules/IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10/DS_IM130614001_Serial_Port_BLE_Module_Master_Slave_HM-10.pdf
-
   v = 0;
 }
 
