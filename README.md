@@ -3,7 +3,7 @@
 
   
 
-This project is a web app that allows you to control [Otto DIY](https://www.ottodiy.org/) robots from a browser using Bluetooth connection. The application use the [p5js](https://p5js.org/) library to communicate with an Arduino board (connected to a BLE module) and [Sweetalert2](https://sweetalert2.github.io/) to make better popup boxes.
+This project is a web app that allows you to control [Otto DIY](https://www.ottodiy.com/) robots from a browser using Bluetooth connection. The application use the [p5js](https://p5js.org/) library to communicate with an Arduino board (connected to a BLE module) and [Sweetalert2](https://sweetalert2.github.io/) to make better popup boxes.
 
   
 
@@ -19,7 +19,7 @@ To use the **app offline**, install the project following these steps:
 
   
 
-1. Clone the repository to your computer using the command: `git clone https://github.com/OttoDIY-org/OttoWebAppControl.git`
+1. Clone the repository to your computer using the command: `git clone https://github.com/OttoDIY/OttoWebAppControl.git`
 
   
 
@@ -39,7 +39,7 @@ To use the application, follow these steps:
 
   
 
-1. Upload the code to your robot depending which model you are using. [Otto Starter](https://github.com/OttoDIY-org/OttoWebAppControl/blob/main/OttoS_BLE.ino), [Otto Wheels](https://github.com/OttoDIY-org/OttoWebAppControl/blob/main/OttoW_BLE.ino), [Otto Ninja Starter](https://github.com/OttoDIY-org/OttoWebAppControl/blob/main/OttoNinja.ino).
+1. Upload the code to your robot depending which model you are using. [Otto Starter](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoS_BLE.ino), [Otto Wheels](https://github.com/OttoDIY-org/OttoWebAppControl/blob/main/OttoW_BLE.ino), [Otto Ninja Starter](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoNinja.ino).
 
 **Note: Make sure that the connections of the robots (legs, feet, bluetooth, etc) are wired as specified in the code.**
   
@@ -116,7 +116,7 @@ This project is open source and we welcome contributions. If you would like to h
 
   
 
-If you are looking for something specific you could help, check the [issues section](https://github.com/OttoDIY-org/OttoWebAppControl/issues).
+If you are looking for something specific you could help, check the [issues section](https://github.com/OttoDIY/OttoWebAppControl/issues).
 
   
 
@@ -138,7 +138,7 @@ If you are looking for something specific you could help, check the [issues sect
 
   
 
-Read it [here](https://github.com/OttoDIY-org/OttoWebAppControl/blob/main/LICENSE)
+Read it [here](https://github.com/OttoDIY/OttoWebAppControl/blob/main/LICENSE)
 
   
 
@@ -178,7 +178,7 @@ Thanks to all these great people and open projects, it has been possible to make
 
   
 
--  [OttoDIY](https://www.ottodiy.org/)
+-  [OttoDIY](https://www.ottodiy.com/)
 
   
 
