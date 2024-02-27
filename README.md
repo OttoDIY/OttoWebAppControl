@@ -39,7 +39,7 @@ To use the application, follow these steps:
 
   
 
-1. Upload the code to your robot depending which model you are using. [Otto Starter](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoS_BLE.ino), [Otto Wheels](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoW_BLE.ino), [Otto Ninja Starter](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoNinja.ino).
+1. Upload the code to your robot depending which model you are using. [Otto Starter](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoS_BLE.ino), [Otto Wheels](https://github.com/OttoDIY-org/OttoWebAppControl/blob/main/OttoW_BLE.ino), [Otto Ninja Starter](https://github.com/OttoDIY/OttoWebAppControl/blob/main/OttoNinja.ino).
 
 **Note: Make sure that the connections of the robots (legs, feet, bluetooth, etc) are wired as specified in the code.**
   
