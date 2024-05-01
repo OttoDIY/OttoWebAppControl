@@ -430,14 +430,14 @@
             Swal.fire({
                 icon: 'info',
                 title: 'Otto Ninja use WiFi instead of Bluetooth!',
-                html: '<p>To connect Otto Ninja upload <a href="OttoNinja.ino" target="_blank">this code</a> and go to <a href="ninja.html">Ninja Controller</a>.</p>',
+                html: '<p>To connect Otto Ninja upload <a href="OttoNinja.ino" target="_blank">this code</a> and go to <a href="http://ottodiy.org/ninja.html">Ninja Controller</a>.</p>',
                 confirmButtonText: 'Go to Ninja Controller',
                 showDenyButton: false,
                 showCancelButton: false,
             }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    window.location = "https://ottodiy.github.io/OttoWebAppControl/ninja.html"
+                    window.location = "http://ottodiy.org/ninja.html"
                 }
             })
         }
