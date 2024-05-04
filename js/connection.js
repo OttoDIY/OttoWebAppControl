@@ -33,7 +33,7 @@ function OttoConnection(robot) {
                 html:
                     'If you have a <a href="https://www.ottodiy.com/" target="_blank">Otto DIY</a> robot and you want to connect it to this app:<br> ' +
                     '1. Your Otto must have a bluetooth module <br>' +
-                    '2. Upload the code <a href="OttoS_BLE.ino" target="_blank">OttoStarter</a> or <a href="OttoW_BLE.ino" target="_blank">OttoWheels</a> as appropriate.',
+                    '2. Upload the code as appropriate.<ul><li>OttoStarter <a href="OttoS_BLE.ino" target="_blank">Arduino Ino</a> or <a href="https://ivanr3d.com/tools/otto/codes/" target="_blank">Web Installer</a></li> <li>OttoWheels <a href="OttoW_BLE.ino" target="_blank">Arduino Ino</a> or <a href="https://ivanr3d.com/tools/otto/codes/" target="_blank">Web Installer</a></li>',
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: 'Connect',
