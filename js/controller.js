@@ -51,11 +51,7 @@ function btnPressed(btn) {
         else if  (btn == "s"){
             changeBackgroundColor("s");
             Stop();
-        }
-        else {
-            //Stop();
-        }
-            
+        }   
     }
 }
 

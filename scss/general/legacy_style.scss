@@ -51,7 +51,7 @@ main {
 }
 .robot--selector {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 25%;
     background-color: var(--brand-color);
@@ -501,6 +501,7 @@ footer ul li {
 }
 .swal2-popup {
     background-color: var(--background)!important;
+    font-size: 1.4rem!important;
 }
 .swal2-icon, .swal2-info {
     color: var(--highlight)!important;

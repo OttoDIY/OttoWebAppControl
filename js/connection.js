@@ -31,9 +31,11 @@ function OttoConnection(robot) {
                 title: 'Connect an '+robot+'?',
                 icon: 'question',
                 html:
-                    'If you have a <a href="https://www.ottodiy.com/" target="_blank">Otto DIY</a> robot and you want to connect it to this app:<br> ' +
-                    '1. Your Otto must have a bluetooth module <br>' +
-                    '2. Upload the code as appropriate.<ul><li>OttoStarter <a href="OttoS_BLE.ino" target="_blank">Arduino Ino</a> or <a href="https://ivanr3d.com/tools/otto/codes/" target="_blank">Web Installer</a></li> <li>OttoWheels <a href="OttoW_BLE.ino" target="_blank">Arduino Ino</a> or <a href="https://ivanr3d.com/tools/otto/codes/" target="_blank">Web Installer</a></li>',
+                    `If you have a <a href="https://www.ottodiy.com/" target="_blank">Otto DIY</a> robot and you want to connect it to this app:<br>
+                    1. Your Otto must have a bluetooth module.<br>
+                    <strong>⚠️ The module must be compatible with bluetooth 4.0 to work with this control.</strong> <br>
+                    2. Upload the code as appropriate.<ul><li>OttoStarter <a href="OttoS_BLE.ino" target="_blank">Arduino Ino</a> or <a href="https://ivanr3d.com/tools/otto/codes/" target="_blank">Web Installer</a></li> <li>OttoWheels <a href="OttoW_BLE.ino" target="_blank">Arduino Ino</a> or <a href="https://ivanr3d.com/tools/otto/codes/" target="_blank">Web Installer</a></li>`,
+                width: 600,
                 showDenyButton: true,
                 showCancelButton: false,
                 confirmButtonText: 'Connect',
